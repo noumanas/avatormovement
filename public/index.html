@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Svg Map create</title>
+    <style>
+         body {
+      padding: 0;
+      margin: 0;
+    }
+
+   
+    #send-container {
+      position: fixed;
+      padding-bottom: 30px;
+      bottom: 0;
+      background-color: white;
+      max-width: 1200px;
+      width: 80%;
+      display: flex;
+    }
+
+    #message-input {
+      flex-grow: 1;
+    }
+        line{
+            stroke:#006600;
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: dash 2s linear alternate;
+        }
+        .main{
+            border: 1px solid gray;
+            height: 50%;
+            width: 50%;
+        }
+        
+        
+        
+
+        @keyframes dash {
+        from {
+            stroke-dashoffset: 1000;
+        }
+        to {
+            stroke-dashoffset: 0;
+        }
+        }
+    </style>
+</head>
+<body>
+    <div class="main" id="main">
+            <svg 
+        xmlns="http://www.w3.org/2000/svg"
+        id="map" 
+        data-cy="map"
+        class="Map_Map__3R7Yv Sidebar_map__2Zulc" 
+        viewBox="0 0 400 250" 
+        aria-label="Map" 
+        style="cursor: crosshair;">
+        <defs>
+            <linearGradient id="logo-gradient"><stop offset="0%" stop-color="#00a9f2" stop-opacity="100%">
+            </stop><stop offset="100%" stop-color="#03caa5" stop-opacity="100%"></stop>
+            </linearGradient>
+        </defs>
+        <!-- <line id="line" style="stroke:#000;"/>
+         -->
+            
+        </svg>
+    </div>
+    <!-- <canvas id="canvas" tabindex=0 width="640" height=480></canvas> -->
+        <!-- <button id="hellobtn">Say Hello</button>
+        <button id="btn">Create Avator</button>
+        <input id="input" type="text"  placeholder="name"></input>
+        <video id="video" autoplay="true" muted></video> -->
+
+        <!-- <div id="message-container"></div> -->
+  <form id="send-container">
+    <input type="text" id="message-input">
+    <button type="submit" id="send-button">Create User</button>
+  </form>
+        
+        <script src="https://cdn.jsdelivr.net/npm/socket.io-client@4.4.1/dist/socket.io.min.js"></script>
+        <script src="userInput.js"></script>
+        <script src="mororgo.js"></script>
+        <script src="client.js">
+        </script>
+</body>
+</html>

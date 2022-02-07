@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            background-color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+        #contentContainer{
+            width: 550px;
+            height: 350px;
+            border: 5px solid gray;
+            overflow: hidden;
+            background-color: #F2F2F2;
+            cursor: pointer;
+        }
+        #thing{
+            width: 75px;
+            height: 75px;
+            background-color: rgb(255, 207 ,0);
+            border-radius: 50%;
+            border: 5px solid rgb(255, 199, 0);
+
+            transform: translate3d(50px, 50px, 0);
+        }
+    </style>
+</head>
+<body>
+    <div class="contentContainer">
+        <div id="thing"></div>
+    </div>
+    <script>
+        var thething = document.getElementById("thing");
+        var container = document.getElementById("contentContainer");
+        container.addEventListener('click', getClickPosition, false);
+
+        function getClickPosition(e){
+            var xPosition =e.clientX;
+            var yPosition = e.clientY;
+
+            var translate3dValue ="translate3d("+xPosition+ "px," +yPosition + "px, 0)";
+            thething.style.transform = translate3dValue;
+        }
+    </script>    
+</body>
+</html>
