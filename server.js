@@ -1,25 +1,9 @@
 const express = require('express');
 const app = express();
+const server = app.listen(5500);
+const io = require('socket.io')(server);
 
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    res.header("Access-Control-Allow-Headers", "Content-Type");
-    res.header("Access-Control-Allow-Methods", "PUT, GET, POST, DELETE, OPTIONS");
-    next();
-  });
-const PORT = process.env.PORT || 3200;
-const server = requre('http').Server(app)
-app.use(express.static('public'))
-const io = require('socket.io')(server,{
-    cors:{
-        origin: "*"
-    }
-});
-
-app.get('/' ,(req, res) => { 
-    res.send("Hello World")
-});
+app.get('/', (req, res) => res.send('Hello World!'))
 server.listen(PORT, function(){
     console.log(`listing on ${PORT}`);
 })
