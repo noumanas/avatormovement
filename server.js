@@ -1,9 +1,11 @@
 const express = require('express');
 const app = express();
-const server = app.listen(5500);
+const PORT= process.env.PORT || 5500;
+app.use(express.static('public'));
+const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
-app.get('/', (req, res) => res.send('Hello World!'))
+app.get('/', (req, res) => res.sendFile(__dirname+ '/index.html'));
 server.listen(PORT, function(){
     console.log(`listing on ${PORT}`);
 })
