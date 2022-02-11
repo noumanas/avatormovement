@@ -11,8 +11,13 @@ server.listen(PORT, function(){
 })
 
 let users = {};
-io.on('connection', socket =>{
+io.on('connection', connected);
+function connected (socket){
+  
     socket.on('send-chat-message', message =>{
+        console.log("new user connected with id: "+socket.id);
+        users[socket.id] == message;
+        console.log('total users: '+Object.keys(users).length);
         socket.broadcast.emit('chat-message', message);
         socket.emit('chat-message',message);
     })
@@ -24,11 +29,18 @@ io.on('connection', socket =>{
         socket.broadcast.emit('updated_y', y);
         console.log(y);
     })
+    socket.on('username', username =>{
+        socket.broadcast.emit('update_user', username);
+        console.log(username);
+    })
+    socket.on("send_user_class" ,data=>{
+        
+    })
     socket.on('disconnect', () =>{
         socket.broadcast.emit('user-disconnect', users[socket.id])
         delete users[socket.id]
     })
-})
+}
 
 // io.on('connection', connected);
 

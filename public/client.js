@@ -6,6 +6,7 @@ var mainDiv = document.getElementById("main");
 var count =[];
 var limit = 5;
 var one;
+socket.emit('newUser', );
 // const canvas = document.getElementById('canvas');
 // const ctx = canvas.getContext('2d');
     // const btn = document.getElementById('btn');
@@ -20,33 +21,19 @@ socket.on('chat-message', data =>{
 })
 socket.on('updated_x' , value1=>{
     socket.on('updated_y' , value2=>{
-        var v1= count[0];
-        var v2=count[1];
-        if(v1==one)
-        {
-            var get_g_id = document.getElementsByClassName('MapUser_MapUser_160Xx')[1].id;
-            var gtrans = document.getElementById(get_g_id);
-            var attrvalue = "translate("+value1+","+value2+")";
-            gtrans.setAttribute("transform",attrvalue);
-            console.log('value is is'+one);
-        console.log(value1, value2);
-        }
-        else if(v2==one)
-        {
-            var get_g_id = document.getElementsByClassName('MapUser_MapUser_160Xx')[0].id;
-            var gtrans = document.getElementById(get_g_id);
-            var attrvalue = "translate("+value1+","+value2+")";
-            gtrans.setAttribute("transform",attrvalue);
-            console.log('value is is'+one);
-        console.log(value1, value2);
-        }
-        else{
-            var get_g_id = document.getElementsByClassName('MapUser_MapUser_160Xx')[0].id;
-            var gtrans = document.getElementById(get_g_id);
-            var attrvalue = "translate("+value1+","+value2+")";
-            gtrans.setAttribute("transform",attrvalue);
-        }
-            
+        socket.on('update_user',username=>{
+            var i;
+            for(i=0; i<count.length; i++){
+                if(count[i] == username){
+                    var get_g_id = document.getElementsByClassName('MapUser_MapUser_160Xx')[i].id;
+                    var gtrans = document.getElementById(get_g_id);
+                    var attrvalue = "translate("+value1+","+value2+")";
+                    gtrans.setAttribute("transform",attrvalue);
+                    console.log('value is is'+username);
+                }
+            }
+           
+        })     
     })
     
  })
@@ -60,7 +47,6 @@ messageForm.addEventListener('click', e=>{
     e.preventDefault()
     const message = messageInput.value
     one=message;
-    console.log("user Limit"+limit);
     socket.emit('send-chat-message', message)
     messageInput.value = ''
 })
@@ -69,7 +55,7 @@ function appendMessage(message){
     
     const gettext = message;
     count.push(message);
-    // count = message;
+    
     // console.log('Counter '+count);
     var g_tag = document.createElementNS("http://www.w3.org/2000/svg","g");
             g_tag.setAttribute("id",gettext+"_user_1");
@@ -158,19 +144,85 @@ function appendMessage(message){
 // userInput(playerBall);
 // requestAnimationFrame(mainLoop);
 function transition(valueX, valueY){
-    const get_id = count;
+        var v1=count[0];
+        var v2=count[1];
+        var v3=count[2];
+        var v4=count[3];
+        var v5=count[4];
+        // if(one === undefined){
+        //     var get_g_id = document.getElementsByClassName('MapUser_MapUser_160Xx')[0].id;
+        //     var gtrans = document.getElementById(get_g_id);
+        //     var attrvalue = "translate("+valueX+","+valueY+")";
+        //     gtrans.setAttribute("transform",attrvalue);
+        //     console.log('value is is'+one);
+        // }
+        
+        // else if(one ==v2){
+
+        //         var get_g_id = document.getElementsByClassName('MapUser_MapUser_160Xx')[0].id;
+        //         var gtrans = document.getElementById(get_g_id);
+        //         var attrvalue = "translate("+valueX+","+valueY+")";
+        //         gtrans.setAttribute("transform",attrvalue);
+        //         console.log('value is is'+one);
+        //         console.log("second wala calling");
+            
+        // }
+        // else if(one ==v3){
+        //     if(one==v1){
+        //         var get_g_id = document.getElementsByClassName('MapUser_MapUser_160Xx')[0].id;
+        //         var gtrans = document.getElementById(get_g_id);
+        //         var attrvalue = "translate("+valueX+","+valueY+")";
+        //         gtrans.setAttribute("transform",attrvalue);
+        //         console.log('value is is'+one);
+        //         console.log("third wala calling");
+        //     }
+        //     if(one==v3){
+        //         var get_g_id = document.getElementsByClassName('MapUser_MapUser_160Xx')[1].id;
+        //         var gtrans = document.getElementById(get_g_id);
+        //         var attrvalue = "translate("+valueX+","+valueY+")";
+        //         gtrans.setAttribute("transform",attrvalue);
+        //         console.log('value is is'+one);
+        //         console.log("third wala calling");
+        //     }
+        //     else{
+        //         var get_g_id = document.getElementsByClassName('MapUser_MapUser_160Xx')[2].id;
+        //         var gtrans = document.getElementById(get_g_id);
+        //         var attrvalue = "translate("+valueX+","+valueY+")";
+        //         gtrans.setAttribute("transform",attrvalue);
+        //         console.log('value is is'+one);
+        //         console.log("third wala else calling");
+        //     }
+            
+        // }
+        // else if(one==v1){
+        //     var get_g_id = document.getElementsByClassName('MapUser_MapUser_160Xx')[2].id;
+        //     var gtrans = document.getElementById(get_g_id);
+        //     var attrvalue = "translate("+valueX+","+valueY+")";
+        //     gtrans.setAttribute("transform",attrvalue);
+        //     console.log('value is is'+one);
+        //     console.log("third wala else calling");
+        // }
+        //     else{
+        //         var get_g_id = document.getElementsByClassName('MapUser_MapUser_160Xx')[1].id;
+        //         var gtrans = document.getElementById(get_g_id);
+        //         var attrvalue = "translate("+valueX+","+valueY+")";
+        //         gtrans.setAttribute("transform",attrvalue);
+        //         console.log('value is is'+one);
+        //         console.log("else wali calling");
+        //     }
+    // const get_id = count;
     // var  rect_get_id = document.getElementsByClassName("all_rect")[v].id;
     // var text_get_id = document.getElementsByClassName('text')[v].id;
     // var text= document.getElementById(get_id+"text");
     // var rect = document.getElementById(get_id);
-    var v=0;
-    if(count[0]){
-        var get_g_id = document.getElementsByClassName('MapUser_MapUser_160Xx')[0].id;
-            var gtrans = document.getElementById(get_g_id);
-            var attrvalue = "translate("+value1+","+value2+")";
-            gtrans.setAttribute("transform",attrvalue);
-            ++v;
-    }
+    // var v=0;
+    // if(count[0]){
+    //     var get_g_id = document.getElementsByClassName('MapUser_MapUser_160Xx')[0].id;
+    //         var gtrans = document.getElementById(get_g_id);
+    //         var attrvalue = "translate("+value1+","+value2+")";
+    //         gtrans.setAttribute("transform",attrvalue);
+    //         ++v;
+    // }
     // if(count[1]){
     //     var get_g_id = document.getElementsByClassName('MapUser_MapUser_160Xx')[1].id;
     //     var gtrans = document.getElementById(get_g_id);
@@ -214,25 +266,16 @@ function transition(valueX, valueY){
                 // text.setAttribute("y", valueY);
 }
 function changeDimensions(click , message) {
-    console.log(count);
    var v1= count[0];
    var v2=count[1];
-   console.log(v1+v2);
+   var v3=count[2];
+   var v4=count[3];
+   var v5=count[4];
+   var i=0;
     const get_id = count;
-
-        if(v1==one)
-        {var get_g_id = document.getElementsByClassName('MapUser_MapUser_160Xx')[0].id;
-        var gtrans = document.getElementById(get_g_id);
-        var x = click.clientX;
-        var y = click.clientY;
-        var attrvalue = "translate("+x+","+y+")";
-        gtrans.setAttribute("transform",attrvalue);
-        socket.emit('value_of_x', x,y);
-        socket.emit('value_of_y', y); 
-        console.log("moving first user");}
-            
-        else if(v2==one){
-            var get_g_id = document.getElementsByClassName('MapUser_MapUser_160Xx')[1].id;
+    for(i=0; i<count.length; i++){
+        if(count[i]==one){
+            var get_g_id = document.getElementsByClassName('MapUser_MapUser_160Xx')[i].id;
             var gtrans = document.getElementById(get_g_id);
             var x = click.clientX;
             var y = click.clientY;
@@ -240,8 +283,106 @@ function changeDimensions(click , message) {
             gtrans.setAttribute("transform",attrvalue);
             socket.emit('value_of_x', x,y);
             socket.emit('value_of_y', y); 
-            console.log("moving second user");
+            socket.emit('username',one);
+            console.log("moving user_ "+one);
         }
+    }
+    // if(v1==one){
+      
+    //             // console.log('message: '+message);
+    // }
+    // if(v2==one){
+    //     var get_g_id = document.getElementsByClassName('MapUser_MapUser_160Xx')[1].id;
+    //             var gtrans = document.getElementById(get_g_id);
+    //             var x = click.clientX;
+    //             var y = click.clientY;
+    //             var attrvalue = "translate("+x+","+y+")";
+    //             gtrans.setAttribute("transform",attrvalue);
+    //             socket.emit('value_of_x', x,y);
+    //             socket.emit('value_of_y', y); 
+    //             socket.emit('username',one);
+    //             console.log("moving user_ "+one)
+    //             i++;
+    //             console.log('value of i='+i);
+    // }
+    // if(v3==one){
+    //     var get_g_id = document.getElementsByClassName('MapUser_MapUser_160Xx')[2].id;
+    //     var gtrans = document.getElementById(get_g_id); 
+    //     var x = click.clientX;
+    //     var y = click.clientY;
+    //     var attrvalue = "translate("+x+","+y+")";
+    //     gtrans.setAttribute("transform",attrvalue);
+    //     socket.emit('value_of_x', x,y);
+    //     socket.emit('value_of_y', y); 
+    //     socket.emit('username',one);
+    //     console.log("moving user_ "+one)
+    //     i++;
+    //     console.log('value of i='+i);
+    // }
+    // if(v4==one){
+    //     var get_g_id = document.getElementsByClassName('MapUser_MapUser_160Xx')[3].id;
+    //     var gtrans = document.getElementById(get_g_id); 
+    //     var x = click.clientX;
+    //     var y = click.clientY;
+    //     var attrvalue = "translate("+x+","+y+")";
+    //     gtrans.setAttribute("transform",attrvalue);
+    //     socket.emit('value_of_x', x,y);
+    //     socket.emit('value_of_y', y); 
+    //     socket.emit('username',one);
+    //     console.log("moving user_ "+one)
+    //     i++;
+    //     console.log('value of i='+i);
+    // }
+    // if(v5==one){
+    //     var get_g_id = document.getElementsByClassName('MapUser_MapUser_160Xx')[4].id;
+    //     var gtrans = document.getElementById(get_g_id); 
+    //     var x = click.clientX;
+    //     var y = click.clientY;
+    //     var attrvalue = "translate("+x+","+y+")";
+    //     gtrans.setAttribute("transform",attrvalue);
+    //     socket.emit('value_of_x', x,y);
+    //     socket.emit('value_of_y', y); 
+    //     socket.emit('username',one);
+    //     console.log("moving user_ "+one)
+    //     i++;
+    //     console.log('value of i='+i);
+    // }     
+                
+            
+            
+        // if(v1==one)
+        // {var get_g_id = document.getElementsByClassName('MapUser_MapUser_160Xx')[0].id;
+        // var gtrans = document.getElementById(get_g_id);
+        // var x = click.clientX;
+        // var y = click.clientY;
+        // var attrvalue = "translate("+x+","+y+")";
+        // gtrans.setAttribute("transform",attrvalue);
+        // socket.emit('value_of_x', x,y);
+        // socket.emit('value_of_y', y); 
+        // console.log("moving first user");}
+            
+        // else if(v2==one){
+        //     var get_g_id = document.getElementsByClassName('MapUser_MapUser_160Xx')[1].id;
+        //     var gtrans = document.getElementById(get_g_id);
+        //     var x = click.clientX;
+        //     var y = click.clientY;
+        //     var attrvalue = "translate("+x+","+y+")";
+        //     gtrans.setAttribute("transform",attrvalue);
+        //     socket.emit('value_of_x', x,y);
+        //     socket.emit('value_of_y', y); 
+        //     console.log("moving second user");
+        // }
+        // else if(v3==one){
+        //     var get_g_id = document.getElementsByClassName('MapUser_MapUser_160Xx')[2].id;
+        //     var gtrans = document.getElementById(get_g_id);
+        //     var x = click.clientX;
+        //     var y = click.clientY;
+        //     var attrvalue = "translate("+x+","+y+")";
+        //     gtrans.setAttribute("transform",attrvalue);
+        //     socket.emit('value_of_x', x,y);
+        //     socket.emit('value_of_y', y); 
+        //     console.log("moving third user");
+        // }
     // if(count[0]){
        
     // }
