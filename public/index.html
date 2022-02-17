@@ -33,8 +33,9 @@
         }
         .main{
             border: 1px solid gray;
-            height: 50%;
-            width: 50%;
+            height: 220px;
+            width: 355px;
+            /* display: none; */
         }
         
         
@@ -73,13 +74,14 @@
     <!-- <canvas id="canvas" tabindex=0 width="640" height=480></canvas> -->
         <!-- <button id="hellobtn">Say Hello</button>
         <button id="btn">Create Avator</button>
-        <input id="input" type="text"  placeholder="name"></input>
-        <video id="video" autoplay="true" muted></video> -->
+        <input id="input" type="text"  placeholder="name"></input> -->
+        <video id="video" autoplay="true" muted></video>
 
         <!-- <div id="message-container"></div> -->
   <form id="send-container">
-    <input type="text" id="message-input">
-    <button type="submit" id="send-button">Create User</button>
+    <input type="text" id="message-input" placeholder="Enter Username">
+    <!-- <input type="text" id="room-input" placeholder="Enter Room"> -->
+    <button type="submit" id="send-button">connect User</button>
   </form>
         
         <script src="https://cdn.jsdelivr.net/npm/socket.io-client@4.4.1/dist/socket.io.min.js"></script>
