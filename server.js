@@ -48,6 +48,7 @@ function connected (socket){
     })
     socket.on('disconnect', message =>{
         delete users[socket.id];
+        history.pop(message);
         console.log("Goodbye client with id :"+socket.id);
         console.log("Current number of Users: "+Object.keys(users).length);
         socket.broadcast.emit('userDeleted',socket.id);
