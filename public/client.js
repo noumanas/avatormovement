@@ -11,6 +11,8 @@ var one;
 var two;
 var id=[];
 var history2 = [];
+var rect2getx;
+var rect2gety;
 
 
 let clientRoom;
