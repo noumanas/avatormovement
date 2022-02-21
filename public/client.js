@@ -17,11 +17,11 @@ var rect2gety;
 
 let clientRoom;
 let userId;
-console.log('home All Ids: '+id);
+// console.log('home All Ids: '+id);
 socket.on('rooms', data=>{
-    console.log('connected Users: '+data.userno);
-    console.log('Room No: '+data.roomNo);
-    console.log('userId: '+data.userid);
+    // console.log('connected Users: '+data.userno);
+    // console.log('Room No: '+data.roomNo);
+    // console.log('userId: '+data.userid);
     
 })
 // socket.on('users',history =>{
@@ -32,17 +32,17 @@ socket.on('rooms', data=>{
 
 socket.on('users',function(data2){
     history2 = data2;
-    console.log(history2);
+    // console.log(history2);
         for(var j =0; j<history2.length; j++){
             if(history2[j]!=one){
-                console.log(history2[j]);
+                // console.log(history2[j]);
                 appendMessage(history2[j]);
             }
             
         }    
 })
  socket.on('uservideocall',data=>{
-     console.log('video calling: '+data);
+    //  console.log('video calling: '+data);
      joinStream();
  })
 socket.on('chat-message',  function(data){
@@ -93,11 +93,10 @@ messageForm.addEventListener('click', e=>{
     one=message;
     socket.emit('send-chat-message', message );
     messageInput.value = ''
-    // mainDiv.style.display="block";
-    // form.style.display="none";
+    mainDiv.style.display="block";
+    form.style.display="none";
 })
 function userdisconnected(userid){
-    console.log(userid);
     
     var i=1;
     const get_id = count;
@@ -108,7 +107,6 @@ function userdisconnected(userid){
             var gtrans = document.getElementById(get_g_id);
             gtrans.remove();
             id.pop(userid);
-           console.log("disconnected this User: "+userid)
         }
         
     }
@@ -119,7 +117,6 @@ function appendMessage(message){
     const gettext = message;
     count.push(message);
     id.push(two);
-    console.log('all Id:'+id);
     var g_tag = document.createElementNS("http://www.w3.org/2000/svg","g");
             g_tag.setAttribute("id",gettext+"_user_1");
             g_tag.setAttribute("transform",`translate(0,0)`);
@@ -172,10 +169,6 @@ function changeDimensions(click , message) {
             var y = click.clientY;
             getx1 = x;
             gety1=y;
-            console.log('x1: '+getx1);
-            console.log('y1: '+gety1);
-            console.log('x2: '+rect2getx);
-            console.log('y2: '+rect2gety);
             var attrvalue = "translate("+x+","+y+")";
             gtrans.setAttribute("transform",attrvalue);
             socket.emit('value_of_x', x,y);
@@ -184,11 +177,11 @@ function changeDimensions(click , message) {
             if(getDistance(getx1, gety1, rect2getx, rect2gety)<10+ 10){
                 joinStream();
                 // socket.emit('VideoCallon', 'on')
-                console.log("collapse");     
+                console.log("Call One");     
             }
             else{
                 leaveAndRemoveLocalStream();
-                    console.log('eRrror.....')
+                    console.log('Call End.....')
             }
             
         }
@@ -213,18 +206,18 @@ function changeDimensions(click , message) {
     // }
    
 }
-function Choose() {
-    console.log('click..............');
-  }
+// function Choose() {
+//     console.log('click..............');
+//   }
 
-function videocalling(){
-    console.log('video calling start');
-}
+// function videocalling(){
+//     console.log('video calling start');
+// }
 function getDistance(x1, y1, x2, y2){
     let xDistance = x2-x1;
     let yDistance = y2-y1;
     let total= Math.sqrt(Math.pow(xDistance, 2)+ Math.pow(yDistance,2))
-    console.log("total = "+ total);
+    // console.log("total = "+ total);
     return total;
 }
 function getMousePosition(click){
