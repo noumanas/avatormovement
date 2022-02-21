@@ -30,16 +30,19 @@ socket.on('rooms', data=>{
 
 socket.on('users',function(data2){
     history2 = data2;
-    
+    console.log(history2);
         for(var j =0; j<history2.length; j++){
             if(history2[j]!=one){
-              
+                console.log(history2[j]);
                 appendMessage(history2[j]);
             }
             
         }    
 })
- 
+ socket.on('uservideocall',data=>{
+     console.log('video calling: '+data);
+     joinStream();
+ })
 socket.on('chat-message',  function(data){
     appendMessage(data);
    })
@@ -52,10 +55,11 @@ socket.on('chat-message',  function(data){
     
 // })
 socket.on('send-userid',usersid =>{
+    console.log('user id: '+usersid);
     two=usersid;
 })
 socket.on('userDeleted',message =>{
-    
+    console.log('user disconnected: '+message);
         userdisconnected(message);
     
 })
@@ -64,6 +68,8 @@ socket.on('userDeleted',message =>{
 socket.on('updated_x' , value1=>{
     socket.on('updated_y' , value2=>{
         socket.on('update_user',username=>{
+            rect2getx=value1;
+            rect2gety=value2;
             var i;
             usersFound = {}
             for(i=0; i<count.length; i++){
@@ -85,11 +91,11 @@ messageForm.addEventListener('click', e=>{
     one=message;
     socket.emit('send-chat-message', message );
     messageInput.value = ''
-    mainDiv.style.display="block";
-    form.style.display="none";
+    // mainDiv.style.display="block";
+    // form.style.display="none";
 })
 function userdisconnected(userid){
-
+    console.log(userid);
     
     var i=1;
     const get_id = count;
@@ -111,6 +117,7 @@ function appendMessage(message){
     const gettext = message;
     count.push(message);
     id.push(two);
+    console.log('all Id:'+id);
     var g_tag = document.createElementNS("http://www.w3.org/2000/svg","g");
             g_tag.setAttribute("id",gettext+"_user_1");
             g_tag.setAttribute("transform",`translate(0,0)`);
@@ -126,7 +133,7 @@ function appendMessage(message){
                  createrect.setAttribute("y",0);
                  createrect.setAttribute("width",12);
                  createrect.setAttribute("height",12);
-                 createrect.setAttribute("rx",2);
+                 createrect.setAttribute("rx",4);
             
                  var create_text = document.createElementNS("http://www.w3.org/2000/svg","text");
               
@@ -152,32 +159,64 @@ function changeDimensions(click , message) {
         if(count[i]==one){
             var get_g_id = document.getElementsByClassName('MapUser_MapUser_160Xx')[i].id;
             var gtrans = document.getElementById(get_g_id);
-            get_value = gtrans.getAttribute('transform');
+            // get_value = gtrans.getAttribute('transform').split('translate(' , );
+            // both_value = get_value[1].split(',',2);
+            // rect2X= both_value[0];
+            // rect2Y=both_value[1].split(')',1);
+            // console.log('value of x : '+rect2X);
+            // console.log('value of Y : '+rect2Y);
+            // console.log(both_value)
             var x = click.clientX;
             var y = click.clientY;
             getx1 = x;
             gety1=y;
+            console.log('x1: '+getx1);
+            console.log('y1: '+gety1);
+            console.log('x2: '+rect2getx);
+            console.log('y2: '+rect2gety);
             var attrvalue = "translate("+x+","+y+")";
             gtrans.setAttribute("transform",attrvalue);
             socket.emit('value_of_x', x,y);
             socket.emit('value_of_y', y); 
             socket.emit('username',one);
-            gety2 =y;
-            getx2=x;
-           
+            if(getDistance(getx1, gety1, rect2getx, rect2gety)<10+ 10){
+                joinStream();
+                // socket.emit('VideoCallon', 'on')
+                console.log("collapse");     
+            }
+            else{
+                leaveAndRemoveLocalStream();
+                    console.log('eRrror.....')
+            }
             
         }
         usersFound[i] =true;
     }
-   
+    // var get_g_id = document.getElementsByClassName('MapUser_MapUser_160Xx')[1].id;
+    // var gtrans = document.getElementById(get_g_id);
+    // get_value = gtrans.getAttribute('transform').split('translate(' , );
+    // both_value = get_value[1].split(',',2);
+    // rect2X= both_value[0];
+    // rect2Y=both_value[1].split(')',1);
+    // console.log('value of x : '+rect2X);
+    // console.log('value of Y : '+rect2Y);
+    // console.log(both_value);
+    // if(getDistance(getx1, gety1, rect2X, rect2Y)<2+ 2){
+                   
+    //     console.log("collapse");
+     
+    // }
+    // else{
+    //     console.log('eRrror.....')
+    // }
    
 }
 function Choose() {
-    
+    console.log('click..............');
   }
 
 function videocalling(){
-  
+    console.log('video calling start');
 }
 function getDistance(x1, y1, x2, y2){
     let xDistance = x2-x1;
