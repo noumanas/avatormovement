@@ -14,14 +14,38 @@ var history2 = [];
 var rect2getx;
 var rect2gety;
 
+// async function videocam(){
+//     let video = document.getElementById("video");
+//     if(navigator.mediaDevices.getUserMedia){
+//        await navigator.mediaDevices.getUserMedia({video:true})
+//         .then(function(s){
+//             video.srcObject = s;
+//         })
+//     }
+//     else{
+//         console.log("no");
+//     }
+// }
+// function cameraoff() {
+//     const stream = video.srcObject;
+//     if (stream) {
+//     const tracks = stream.getTracks();
+
+//     tracks.forEach(function (track) {
+//         track.stop();
+//     });
+
+//     video.srcObject = null;
+//     }
+// }
 
 let clientRoom;
 let userId;
-// console.log('home All Ids: '+id);
+console.log('home All Ids: '+id);
 socket.on('rooms', data=>{
-    // console.log('connected Users: '+data.userno);
-    // console.log('Room No: '+data.roomNo);
-    // console.log('userId: '+data.userid);
+    console.log('connected Users: '+data.userno);
+    console.log('Room No: '+data.roomNo);
+    console.log('userId: '+data.userid);
     
 })
 // socket.on('users',history =>{
@@ -32,17 +56,17 @@ socket.on('rooms', data=>{
 
 socket.on('users',function(data2){
     history2 = data2;
-    // console.log(history2);
+    console.log(history2);
         for(var j =0; j<history2.length; j++){
             if(history2[j]!=one){
-                // console.log(history2[j]);
+                console.log(history2[j]);
                 appendMessage(history2[j]);
             }
             
         }    
 })
  socket.on('uservideocall',data=>{
-    //  console.log('video calling: '+data);
+     console.log('video calling: '+data);
      joinStream();
  })
 socket.on('chat-message',  function(data){
@@ -97,6 +121,7 @@ messageForm.addEventListener('click', e=>{
     form.style.display="none";
 })
 function userdisconnected(userid){
+    console.log(userid);
     
     var i=1;
     const get_id = count;
@@ -107,6 +132,7 @@ function userdisconnected(userid){
             var gtrans = document.getElementById(get_g_id);
             gtrans.remove();
             id.pop(userid);
+           console.log("disconnected this User: "+userid)
         }
         
     }
@@ -117,6 +143,7 @@ function appendMessage(message){
     const gettext = message;
     count.push(message);
     id.push(two);
+    console.log('all Id:'+id);
     var g_tag = document.createElementNS("http://www.w3.org/2000/svg","g");
             g_tag.setAttribute("id",gettext+"_user_1");
             g_tag.setAttribute("transform",`translate(0,0)`);
@@ -128,8 +155,8 @@ function appendMessage(message){
             var createrect = document.createElementNS("http://www.w3.org/2000/svg","rect");
                  createrect.setAttribute("id",gettext);
                  createrect.setAttribute("class", "all_rect");
-                 createrect.setAttribute("x",0);
-                 createrect.setAttribute("y",0);
+                 createrect.setAttribute("x",12);
+                 createrect.setAttribute("y",-2);
                  createrect.setAttribute("width",12);
                  createrect.setAttribute("height",12);
                  createrect.setAttribute("rx",4);
@@ -169,6 +196,10 @@ function changeDimensions(click , message) {
             var y = click.clientY;
             getx1 = x;
             gety1=y;
+            console.log('x1: '+getx1);
+            console.log('y1: '+gety1);
+            console.log('x2: '+rect2getx);
+            console.log('y2: '+rect2gety);
             var attrvalue = "translate("+x+","+y+")";
             gtrans.setAttribute("transform",attrvalue);
             socket.emit('value_of_x', x,y);
@@ -177,11 +208,11 @@ function changeDimensions(click , message) {
             if(getDistance(getx1, gety1, rect2getx, rect2gety)<10+ 10){
                 joinStream();
                 // socket.emit('VideoCallon', 'on')
-                console.log("Call One");     
+                console.log("collapse");     
             }
             else{
                 leaveAndRemoveLocalStream();
-                    console.log('Call End.....')
+                    console.log('eRrror.....')
             }
             
         }
@@ -206,26 +237,26 @@ function changeDimensions(click , message) {
     // }
    
 }
-// function Choose() {
-//     console.log('click..............');
-//   }
+function Choose() {
+    console.log('click..............');
+  }
 
-// function videocalling(){
-//     console.log('video calling start');
-// }
+function videocalling(){
+    console.log('video calling start');
+}
 function getDistance(x1, y1, x2, y2){
     let xDistance = x2-x1;
     let yDistance = y2-y1;
     let total= Math.sqrt(Math.pow(xDistance, 2)+ Math.pow(yDistance,2))
-    // console.log("total = "+ total);
+    console.log("total = "+ total);
     return total;
 }
-function getMousePosition(click){
-    let rects = mainDiv.getBoundingClientRect();
-    var x = click.clientX - rects.offsetWidth/2 ;
-    var y = click.clientY - rects.offsetheight/2;
-}
-ctx.addEventListener('mousedown' , (e) =>{
-    getMousePosition(ctx, e)
-})
-mainDiv.addEventListener('click', changeDimensions, false);
+// function getMousePosition(click){
+//     let rects = mainDiv.getBoundingClientRect();
+//     var x = click.clientX - rects.offsetWidth/2 ;
+//     var y = click.clientY - rects.offsetheight/2;
+// }
+// ctx.addEventListener('mousedown' , (e) =>{
+//     getMousePosition(ctx, e)
+// })
+mainDiv.addEventListener('click', changeDimensions);

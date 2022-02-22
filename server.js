@@ -33,6 +33,9 @@ function connected (socket){
             socket.broadcast.emit('chat-message', message);
             socket.emit('chat-message',message);
         })
+        socket.on('VideoCallon',data=>{
+            socket.broadcast.emit('uservideocall',data)
+        })
     
     socket.on('value_of_x', x =>{
         socket.broadcast.emit('updated_x', x);
