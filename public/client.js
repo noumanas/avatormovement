@@ -155,8 +155,8 @@ function appendMessage(message){
             var createrect = document.createElementNS("http://www.w3.org/2000/svg","rect");
                  createrect.setAttribute("id",gettext);
                  createrect.setAttribute("class", "all_rect");
-                 createrect.setAttribute("x",12);
-                 createrect.setAttribute("y",-2);
+                 createrect.setAttribute("x",0);
+                 createrect.setAttribute("y",0);
                  createrect.setAttribute("width",12);
                  createrect.setAttribute("height",12);
                  createrect.setAttribute("rx",4);
@@ -193,7 +193,20 @@ function changeDimensions(click , message) {
             // console.log('value of Y : '+rect2Y);
             // console.log(both_value)
             var x = click.clientX;
-            var y = click.clientY;
+            var y = click.clientY
+            if(x<=150 || y<=150){
+                var x = x-10;
+                var y = y-10;
+            }
+            else if(x<=250 || y<=250){
+                var x = x-15;
+                var y = y-15;
+            }
+            else if(x>=250 || y>=250){
+                var x = x-15;
+                var y = y-15;
+            }
+            
             getx1 = x;
             gety1=y;
             console.log('x1: '+getx1);

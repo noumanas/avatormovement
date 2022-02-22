@@ -85,11 +85,11 @@ button{
             background-image: url(Background.png);
             background-size: cover;
             border: 1px solid gray;
-            height: 220px;
-            width: 355px;
+            height: 350px;
+            width: 560px;
+            cursor: crosshair;
             /* display: none; */
         }
-        
         
         
 
@@ -105,22 +105,24 @@ button{
 </head>
 <body>
     <div class="main" id="main">
-            <svg 
-        xmlns="http://www.w3.org/2000/svg"
-        id="map" 
-        data-cy="map"
-        class="Map_Map__3R7Yv Sidebar_map__2Zulc" 
-        viewBox="0 0 400 250" 
-        aria-label="Map" 
-        style="cursor: crosshair;">
-        <defs>
-            <linearGradient id="logo-gradient"><stop offset="0%" stop-color="#00a9f2" stop-opacity="100%">
-            </stop><stop offset="100%" stop-color="#03caa5" stop-opacity="100%"></stop>
-            </linearGradient>
-        </defs>
-            
-        </svg>
-    </div>
+        <svg 
+    xmlns="http://www.w3.org/2000/svg"
+    id="map" 
+    data-cy="map"
+    class="Map_Map__3R7Yv Sidebar_map__2Zulc"
+    style="width:100%;height:100%;"
+    preserveAspectRatio="xMinYMin slice"
+    aria-label="Map" 
+    viewBox="0 0 550 350"
+    >
+    <defs>
+        <linearGradient id="logo-gradient"><stop offset="0%" stop-color="#00a9f2" stop-opacity="100%">
+        </stop><stop offset="100%" stop-color="#03caa5" stop-opacity="100%"></stop>
+        </linearGradient>
+    </defs>
+        
+    </svg>
+</div>
     <!-- <canvas id="canvas" tabindex=0 width="640" height=480></canvas> -->
         <!-- <button id="hellobtn">Say Hello</button>
         <button id="btn">Create Avator</button>
