@@ -10,11 +10,13 @@ server.listen(PORT, function(){
     console.log(`listing on ${PORT}`);
 })
 
+
 let history =[];
 let users = {};
 let userno = 0;
 let roomNo;
 let userid;
+let get_username =[];
 io.on('connection', connected);
 function connected (socket){
             userno+1;
@@ -48,6 +50,15 @@ function connected (socket){
     })
     socket.on("send_user_class" ,data=>{
         
+    })
+    socket.on('create_cricle',data=>{
+        socket.on('circle_username',data1=>{
+            get_username = data1;
+            console.log(get_username);
+        })
+        socket.join(get_username);
+        socket.broadcast.to(get_username).emit('circle-created',data);
+        socket.broadcast.to(get_username).emit('video-calling',get_username);
     })
     socket.on('disconnect', message =>{
         delete users[socket.id];

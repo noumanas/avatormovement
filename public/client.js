@@ -11,9 +11,10 @@ var one;
 var two;
 var id=[];
 var history2 = [];
-var rect2getx;
-var rect2gety;
-
+var rect2getx = 271;
+var rect2gety = 240;
+var numbertext =0;
+var get_username;
 // async function videocam(){
 //     let video = document.getElementById("video");
 //     if(navigator.mediaDevices.getUserMedia){
@@ -67,7 +68,6 @@ socket.on('users',function(data2){
 })
  socket.on('uservideocall',data=>{
      console.log('video calling: '+data);
-     joinStream();
  })
 socket.on('chat-message',  function(data){
     appendMessage(data);
@@ -89,13 +89,30 @@ socket.on('userDeleted',message =>{
         userdisconnected(message);
     
 })
+// socket.on('circle-created',data=>{
+//     createcircle(data);
+//     joinStream(); 
+//     socket.on('video-calling',data1=>{
+//         for(var i=0; i<count.length; i++){
+//             if(count[i]== data1){
+//                 console.log(data1);
+                
+//             }
+//         }
+        
+        
+//     })
+    
+    
+// })
 
 // send your position..
 socket.on('updated_x' , value1=>{
     socket.on('updated_y' , value2=>{
         socket.on('update_user',username=>{
-            rect2getx=value1;
-            rect2gety=value2;
+            // rect2getx=value1;
+            // rect2gety=value2;
+            get_username=username;
             var i;
             usersFound = {}
             for(i=0; i<count.length; i++){
@@ -149,7 +166,6 @@ function appendMessage(message){
             g_tag.setAttribute("transform",`translate(0,0)`);
             g_tag.setAttribute("data-cy","map_user_me");
             g_tag.setAttribute("class","MapUser_MapUser_160Xx");
-            g_tag.setAttribute('onClick','Choose();');
             g_tag.style.transition="all 2s";
             document.getElementById("map").appendChild(g_tag);
             var createrect = document.createElementNS("http://www.w3.org/2000/svg","rect");
@@ -177,7 +193,7 @@ function appendMessage(message){
 function transition(valueX, valueY){
       
 }
-function changeDimensions(click , message) {
+async function  changeDimensions(click , message) {
    var i=0;
     const get_id = count;
     usersFound ={};
@@ -206,7 +222,6 @@ function changeDimensions(click , message) {
                 var x = x-15;
                 var y = y-15;
             }
-            
             getx1 = x;
             gety1=y;
             console.log('x1: '+getx1);
@@ -218,14 +233,19 @@ function changeDimensions(click , message) {
             socket.emit('value_of_x', x,y);
             socket.emit('value_of_y', y); 
             socket.emit('username',one);
-            if(getDistance(getx1, gety1, rect2getx, rect2gety)<10+ 10){
+            if(getDistance(getx1, gety1, rect2getx, rect2gety)<50+50){
                 joinStream();
-                // socket.emit('VideoCallon', 'on')
+                ++numbertext;
+                // await createcircle(attrvalue);
+                socket.emit('create_cricle',attrvalue);
+                socket.emit('circle_username',get_username);
+                console.log('userName Get: '+get_username);
                 console.log("collapse");     
             }
             else{
                 leaveAndRemoveLocalStream();
-                    console.log('eRrror.....')
+                    console.log('eRrror.....');
+                    // removecircle();
             }
             
         }
@@ -253,7 +273,34 @@ function changeDimensions(click , message) {
 function Choose() {
     console.log('click..............');
   }
-
+function createcircle(attrvalue){
+    var g_tag = document.createElementNS("http://www.w3.org/2000/svg","g");
+    g_tag.setAttribute("transform",attrvalue);
+    g_tag.setAttribute("data-cy","map-huddle");
+    g_tag.setAttribute("class","MapHuddle_mine__18Skp");
+    g_tag.setAttribute('id','createCirlce');
+    g_tag.style.transition="all";
+    g_tag.style.transitionDelay="5s";
+    document.getElementById("map").appendChild(g_tag);
+    var createcricle = document.createElementNS("http://www.w3.org/2000/svg","circle");
+    createcricle.setAttribute('class', 'MapHuddle_circle__1MFe2');
+    createcricle.setAttribute('style', 'fill: #F7CA32;');
+    createcricle.setAttribute('r', '24');
+    var create_text = document.createElementNS("http://www.w3.org/2000/svg","text");
+                create_text.setAttribute('font-size',42);
+                 create_text.setAttribute("class","text");
+                 create_text.setAttribute('x',-8);
+                 create_text.setAttribute('y',10);
+                 create_text.setAttribute("style","fill: rgb(75, 77, 88);");
+                 var newtext = document.createTextNode(numbertext);
+                 create_text.appendChild(newtext);
+    g_tag.appendChild(createcricle);
+    g_tag.appendChild(create_text);
+}
+function removecircle(){
+    var get_cricle =  document.getElementById('createCirlce');
+        get_cricle.remove();
+}
 function videocalling(){
     console.log('video calling start');
 }

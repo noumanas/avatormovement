@@ -90,6 +90,12 @@ button{
             cursor: crosshair;
             /* display: none; */
         }
+        .room{
+            font: italic 25px serif;
+            fill: black;
+            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        }
+        
         
         
 
@@ -105,24 +111,25 @@ button{
 </head>
 <body>
     <div class="main" id="main">
-        <svg 
-    xmlns="http://www.w3.org/2000/svg"
-    id="map" 
-    data-cy="map"
-    class="Map_Map__3R7Yv Sidebar_map__2Zulc"
-    style="width:100%;height:100%;"
-    preserveAspectRatio="xMinYMin slice"
-    aria-label="Map" 
-    viewBox="0 0 550 350"
-    >
-    <defs>
-        <linearGradient id="logo-gradient"><stop offset="0%" stop-color="#00a9f2" stop-opacity="100%">
-        </stop><stop offset="100%" stop-color="#03caa5" stop-opacity="100%"></stop>
-        </linearGradient>
-    </defs>
-        
-    </svg>
-</div>
+            <svg 
+        xmlns="http://www.w3.org/2000/svg"
+        id="map" 
+        data-cy="map"
+        class="Map_Map__3R7Yv Sidebar_map__2Zulc"
+        style="width:100%;height:100%;"
+        preserveAspectRatio="xMinYMin slice"
+        aria-label="Map" 
+        viewBox="0 0 550 350"
+        >
+        <defs>
+            <linearGradient id="logo-gradient"><stop offset="0%" stop-color="#00a9f2" stop-opacity="100%">
+            </stop><stop offset="100%" stop-color="#03caa5" stop-opacity="100%"></stop>
+            </linearGradient>
+        </defs>
+        <rect x="205" y="178" width="150px" rx="15" height="150px" stroke="rgb(255, 143, 5)" stroke-width="2%" fill="rgb(252, 217, 119)" />
+        <text x="230" y="217" class="room">Room 1</text>
+        </svg>
+    </div>
     <!-- <canvas id="canvas" tabindex=0 width="640" height=480></canvas> -->
         <!-- <button id="hellobtn">Say Hello</button>
         <button id="btn">Create Avator</button>
@@ -134,7 +141,6 @@ button{
             <div id="video-streams"></div>
     
             <div id="stream-controls">
-                <button id="leave-btn">Leave Stream</button>
                 <button id="mic-btn">Mic On</button>
                 <button id="camera-btn">Camera on</button>
             </div>
