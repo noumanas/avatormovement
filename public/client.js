@@ -11,9 +11,9 @@ var one;
 var two;
 var id=[];
 var history2 = [];
-var rect2getx = 271;
-var rect2gety = 240;
-var numbertext =0;
+var rect2getx;
+var rect2gety;
+var numbertext =2;
 var get_username;
 // async function videocam(){
 //     let video = document.getElementById("video");
@@ -110,8 +110,8 @@ socket.on('userDeleted',message =>{
 socket.on('updated_x' , value1=>{
     socket.on('updated_y' , value2=>{
         socket.on('update_user',username=>{
-            // rect2getx=value1;
-            // rect2gety=value2;
+            rect2getx=value1;
+            rect2gety=value2;
             get_username=username;
             var i;
             usersFound = {}
@@ -233,10 +233,10 @@ async function  changeDimensions(click , message) {
             socket.emit('value_of_x', x,y);
             socket.emit('value_of_y', y); 
             socket.emit('username',one);
-            if(getDistance(getx1, gety1, rect2getx, rect2gety)<50+50){
+            if(getDistance(getx1, gety1, rect2getx, rect2gety)<10+10){
                 joinStream();
-                ++numbertext;
-                // await createcircle(attrvalue);
+                // ++numbertext;
+                await createcircle(attrvalue);
                 socket.emit('create_cricle',attrvalue);
                 socket.emit('circle_username',get_username);
                 console.log('userName Get: '+get_username);
@@ -245,7 +245,7 @@ async function  changeDimensions(click , message) {
             else{
                 leaveAndRemoveLocalStream();
                     console.log('eRrror.....');
-                    // removecircle();
+                    removecircle();
             }
             
         }
