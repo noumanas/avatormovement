@@ -24,9 +24,10 @@ function connected (socket){
             socket.join(roomNo);
             socket.emit('rooms', {userno: userno, roomNo: roomNo , userid:userid});
             socket.on('send-chat-message', (message) =>{
-           
+            console.log("new user connected with id: "+socket.id);
             users[socket.id] = message;
             history.push(message);
+            console.log('user name: '+message)
             socket.emit('users', history);
             console.log('total users: '+Object.keys(users).length);
             socket.broadcast.emit('send-userid', socket.id);
@@ -50,14 +51,21 @@ function connected (socket){
         
     })
     socket.on('create_cricle',data=>{
+        socket.broadcast.emit('circle-created',data);
         socket.on('circle_username',data1=>{
             get_username = data1;
+            console.log(get_username);
+
         })
         socket.join(get_username);
-        socket.broadcast.to(get_username).emit('circle-created',data);
+        
         socket.broadcast.to(get_username).emit('video-calling',get_username);
     })
+    socket.on('hide-user-avator',data=>{
+        socket.broadcast.emit('user-avator-hided',data);
+    })
     socket.on('remove-cirlce', data=>{
+        console.log(data);
         socket.broadcast.emit('removed-circle-from-users',data)
     })
     socket.on('disconnect', message =>{

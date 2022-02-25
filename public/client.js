@@ -13,7 +13,7 @@ var id=[];
 var history2 = [];
 var rect2getx;
 var rect2gety;
-var numbertext =2;
+var numbertext =1;
 var get_username;
 // async function videocam(){
 //     let video = document.getElementById("video");
@@ -81,7 +81,7 @@ socket.on('chat-message',  function(data){
     
 // })
 socket.on('send-userid',usersid =>{
-    // console.log('user id: '+usersid);
+    console.log('user id: '+usersid);
     two=usersid;
 })
 socket.on('userDeleted',message =>{
@@ -90,15 +90,20 @@ socket.on('userDeleted',message =>{
     
 })
 socket.on('circle-created',data=>{
-    createcircle(data);
-    joinStream(); 
-    socket.on('video-calling',data1=>{
-        for(var i=0; i<count.length; i++){
-            if(count[i]== data1){
-                // console.log(data1);
+    var delayInMilliseconds = 1500; //1 second
+    setTimeout(function() {
+        createcircle(data);
+        socket.on('video-calling',data1=>{
+            joinStream(); 
+            for(var i=0; i<count.length; i++){
+                if(count[i]== data1){
+                    // console.log('video calling on'+data1);
+                    
+                }
             }
-        }
-    })
+        })
+    }, delayInMilliseconds);
+    
 })
 socket.on('removed-circle-from-users',data=>{
     // console.log('user:cirle: '+data);
@@ -120,6 +125,11 @@ socket.on('updated_x' , value1=>{
                     var gtrans = document.getElementById(get_g_id);
                     var attrvalue = "translate("+value1+","+value2+")";
                     gtrans.setAttribute("transform",attrvalue);
+                    socket.on('user-avator-hided',data=>{
+                             gtrans.style.display="none";
+                    })
+                    gtrans.style.display="block";
+                    // gtrans.style.display="none";
                 }
             }
            
@@ -148,7 +158,7 @@ function userdisconnected(userid){
             var gtrans = document.getElementById(get_g_id);
             gtrans.remove();
             id.pop(userid);
-           console.log("disconnected this User: "+userid)
+        //    console.log("disconnected this User: "+userid)
         }
         
     }
@@ -235,21 +245,43 @@ async function  changeDimensions(click , message) {
             if(getDistance(getx1, gety1, rect2getx, rect2gety)<10+10){
                 joinStream();
                 // ++numbertext;
-                await createcircle(attrvalue);
+               
+                var delayInMilliseconds = 1500; //1 second
+                setTimeout(function() {
+                    createcircle(attrvalue);
+                    for(i=0; i<count.length; i++){
+                        if(count[i]==one){
+                            var get_g_id = document.getElementsByClassName('MapUser_MapUser_160Xx')[i].id;
+                            var gtrans = document.getElementById(get_g_id);
+                            gtrans.style.display="none";
+                            socket.emit('hide-user-avator','ok');
+                        }
+                    }
+                    }, delayInMilliseconds);
+                
                 socket.emit('create_cricle',attrvalue);
                 socket.emit('circle_username',get_username);
                 // console.log('userName Get: '+get_username);
-                console.log("collapse");     
+                // console.log("collapse");     
             }
             else{
+
                 leaveAndRemoveLocalStream();
+                for(i=0; i<count.length; i++){
+                    if(count[i]==one){
+                        var get_g_id = document.getElementsByClassName('MapUser_MapUser_160Xx')[i].id;
+                        var gtrans = document.getElementById(get_g_id);
+                        gtrans.style.display="block";
+                    }
+                }
                 socket.emit('remove-cirlce', 'on');
-                    // console.log('eRrror.....');
+                    console.log('eRrror.....');
                     removecircle();
             }
             
         }
         usersFound[i] =true;
+        console.log('User Found : '+usersFound)
     }
     // var get_g_id = document.getElementsByClassName('MapUser_MapUser_160Xx')[1].id;
     // var gtrans = document.getElementById(get_g_id);
@@ -274,6 +306,7 @@ async function  changeDimensions(click , message) {
 //     console.log('click..............');
 //   }
 function createcircle(attrvalue){
+    numbertext++;
     var g_tag = document.createElementNS("http://www.w3.org/2000/svg","g");
     g_tag.setAttribute("transform",attrvalue);
     g_tag.setAttribute("data-cy","map-huddle");
@@ -298,6 +331,7 @@ function createcircle(attrvalue){
     g_tag.appendChild(create_text);
 }
 function removecircle(){
+    numbertext =1;
     var get_cricle =  document.getElementById('createCirlce');
         get_cricle.remove();
 }
@@ -308,7 +342,7 @@ function getDistance(x1, y1, x2, y2){
     let xDistance = x2-x1;
     let yDistance = y2-y1;
     let total= Math.sqrt(Math.pow(xDistance, 2)+ Math.pow(yDistance,2))
-    // console.log("total = "+ total);
+    console.log("total = "+ total);
     return total;
 }
 // function getMousePosition(click){
