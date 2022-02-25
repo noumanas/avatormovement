@@ -57,7 +57,7 @@ function connected (socket){
         socket.broadcast.to(get_username).emit('circle-created',data);
         socket.broadcast.to(get_username).emit('video-calling',get_username);
     })
-    socket.emit('remove-cirlce', data=>{
+    socket.on('remove-cirlce', data=>{
         socket.broadcast.emit('removed-circle-from-users',data)
     })
     socket.on('disconnect', message =>{
