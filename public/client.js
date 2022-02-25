@@ -42,11 +42,11 @@ var get_username;
 
 let clientRoom;
 let userId;
-console.log('home All Ids: '+id);
+// console.log('home All Ids: '+id);
 socket.on('rooms', data=>{
-    console.log('connected Users: '+data.userno);
-    console.log('Room No: '+data.roomNo);
-    console.log('userId: '+data.userid);
+    // console.log('connected Users: '+data.userno);
+    // console.log('Room No: '+data.roomNo);
+    // console.log('userId: '+data.userid);
     
 })
 // socket.on('users',history =>{
@@ -57,17 +57,17 @@ socket.on('rooms', data=>{
 
 socket.on('users',function(data2){
     history2 = data2;
-    console.log(history2);
+    // console.log(history2);
         for(var j =0; j<history2.length; j++){
             if(history2[j]!=one){
-                console.log(history2[j]);
+                // console.log(history2[j]);
                 appendMessage(history2[j]);
             }
             
         }    
 })
  socket.on('uservideocall',data=>{
-     console.log('video calling: '+data);
+    //  console.log('video calling: '+data);
  })
 socket.on('chat-message',  function(data){
     appendMessage(data);
@@ -81,7 +81,7 @@ socket.on('chat-message',  function(data){
     
 // })
 socket.on('send-userid',usersid =>{
-    console.log('user id: '+usersid);
+    // console.log('user id: '+usersid);
     two=usersid;
 })
 socket.on('userDeleted',message =>{
@@ -89,22 +89,21 @@ socket.on('userDeleted',message =>{
         userdisconnected(message);
     
 })
-// socket.on('circle-created',data=>{
-//     createcircle(data);
-//     joinStream(); 
-//     socket.on('video-calling',data1=>{
-//         for(var i=0; i<count.length; i++){
-//             if(count[i]== data1){
-//                 console.log(data1);
-                
-//             }
-//         }
-        
-        
-//     })
-    
-    
-// })
+socket.on('circle-created',data=>{
+    createcircle(data);
+    joinStream(); 
+    socket.on('video-calling',data1=>{
+        for(var i=0; i<count.length; i++){
+            if(count[i]== data1){
+                // console.log(data1);
+            }
+        }
+    })
+})
+socket.on('removed-circle-from-users',data=>{
+    // console.log('user:cirle: '+data);
+    removecircle();
+})
 
 // send your position..
 socket.on('updated_x' , value1=>{
@@ -138,7 +137,7 @@ messageForm.addEventListener('click', e=>{
     form.style.display="none";
 })
 function userdisconnected(userid){
-    console.log(userid);
+    // console.log(userid);
     
     var i=1;
     const get_id = count;
@@ -160,7 +159,7 @@ function appendMessage(message){
     const gettext = message;
     count.push(message);
     id.push(two);
-    console.log('all Id:'+id);
+    // console.log('all Id:'+id);
     var g_tag = document.createElementNS("http://www.w3.org/2000/svg","g");
             g_tag.setAttribute("id",gettext+"_user_1");
             g_tag.setAttribute("transform",`translate(0,0)`);
@@ -224,10 +223,10 @@ async function  changeDimensions(click , message) {
             }
             getx1 = x;
             gety1=y;
-            console.log('x1: '+getx1);
-            console.log('y1: '+gety1);
-            console.log('x2: '+rect2getx);
-            console.log('y2: '+rect2gety);
+            // console.log('x1: '+getx1);
+            // console.log('y1: '+gety1);
+            // console.log('x2: '+rect2getx);
+            // console.log('y2: '+rect2gety);
             var attrvalue = "translate("+x+","+y+")";
             gtrans.setAttribute("transform",attrvalue);
             socket.emit('value_of_x', x,y);
@@ -239,12 +238,13 @@ async function  changeDimensions(click , message) {
                 await createcircle(attrvalue);
                 socket.emit('create_cricle',attrvalue);
                 socket.emit('circle_username',get_username);
-                console.log('userName Get: '+get_username);
+                // console.log('userName Get: '+get_username);
                 console.log("collapse");     
             }
             else{
                 leaveAndRemoveLocalStream();
-                    console.log('eRrror.....');
+                socket.emit('remove-cirlce', 'on');
+                    // console.log('eRrror.....');
                     removecircle();
             }
             
@@ -270,9 +270,9 @@ async function  changeDimensions(click , message) {
     // }
    
 }
-function Choose() {
-    console.log('click..............');
-  }
+// function Choose() {
+//     console.log('click..............');
+//   }
 function createcircle(attrvalue){
     var g_tag = document.createElementNS("http://www.w3.org/2000/svg","g");
     g_tag.setAttribute("transform",attrvalue);
@@ -301,14 +301,14 @@ function removecircle(){
     var get_cricle =  document.getElementById('createCirlce');
         get_cricle.remove();
 }
-function videocalling(){
-    console.log('video calling start');
-}
+// function videocalling(){
+//     console.log('video calling start');
+// }
 function getDistance(x1, y1, x2, y2){
     let xDistance = x2-x1;
     let yDistance = y2-y1;
     let total= Math.sqrt(Math.pow(xDistance, 2)+ Math.pow(yDistance,2))
-    console.log("total = "+ total);
+    // console.log("total = "+ total);
     return total;
 }
 // function getMousePosition(click){

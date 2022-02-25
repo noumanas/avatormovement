@@ -1,7 +1,6 @@
 const APP_ID ="6c9da57d6d0348eaa4680b134779b5b0"
-const TOKEN = "0066c9da57d6d0348eaa4680b134779b5b0IAAn8JDFwA+mN4JnIxyYUhlUTgXfSCwRpBdw88pOjS67T2TNKL8AAAAAEAAg1/Vge4kXYgEAAQB5iRdi"
+const TOKEN = "0066c9da57d6d0348eaa4680b134779b5b0IABCgI4Qa2zE5Sdi2MbD/1SsKtREgIIZ+hCJAs3CC3gg7mTNKL8AAAAAEABkcFWN1tMZYgEAAQDW0xli"
 const CHANNEL ="main"
-
 
 const client = AgoraRTC.createClient({mode:'rtc', codec:'vp8'})
 
@@ -30,6 +29,7 @@ let joinAndDisplayLocalStream = async () => {
 
 let joinStream = async () => {
     await joinAndDisplayLocalStream()
+    // document.getElementById('join-btn').style.display = 'none'
     document.getElementById('stream-controls').style.display = 'flex'
 }
 
@@ -97,6 +97,6 @@ let toggleCamera = async (e) => {
 }
 
 // document.getElementById('join-btn').addEventListener('click', joinStream)
-document.getElementById('leave-btn').addEventListener('click', leaveAndRemoveLocalStream)
+// document.getElementById('leave-btn').addEventListener('click', leaveAndRemoveLocalStream)
 document.getElementById('mic-btn').addEventListener('click', toggleMic)
 document.getElementById('camera-btn').addEventListener('click', toggleCamera)

@@ -10,7 +10,6 @@ server.listen(PORT, function(){
     console.log(`listing on ${PORT}`);
 })
 
-
 let history =[];
 let users = {};
 let userno = 0;
@@ -25,10 +24,9 @@ function connected (socket){
             socket.join(roomNo);
             socket.emit('rooms', {userno: userno, roomNo: roomNo , userid:userid});
             socket.on('send-chat-message', (message) =>{
-            console.log("new user connected with id: "+socket.id);
+           
             users[socket.id] = message;
             history.push(message);
-            console.log('user name: '+message)
             socket.emit('users', history);
             console.log('total users: '+Object.keys(users).length);
             socket.broadcast.emit('send-userid', socket.id);
@@ -54,11 +52,13 @@ function connected (socket){
     socket.on('create_cricle',data=>{
         socket.on('circle_username',data1=>{
             get_username = data1;
-            console.log(get_username);
         })
         socket.join(get_username);
         socket.broadcast.to(get_username).emit('circle-created',data);
         socket.broadcast.to(get_username).emit('video-calling',get_username);
+    })
+    socket.emit('remove-cirlce', data=>{
+        socket.broadcast.emit('removed-circle-from-users',data)
     })
     socket.on('disconnect', message =>{
         delete users[socket.id];
