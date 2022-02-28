@@ -21,7 +21,7 @@ function connected (socket){
             userno+1;
             roomNo =1;
             userid=socket.id;
-            socket.join(roomNo);
+            socket.join(roomNo); 
             socket.emit('rooms', {userno: userno, roomNo: roomNo , userid:userid});
             socket.on('send-chat-message', (message) =>{
             console.log("new user connected with id: "+socket.id);
