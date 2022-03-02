@@ -1,6 +1,7 @@
 const APP_ID ="6c9da57d6d0348eaa4680b134779b5b0"
-const TOKEN = "0066c9da57d6d0348eaa4680b134779b5b0IAAww7FH//FuLXJr/3bBGdmyajOfU2NX5sRwlLfUZnqGORmwOf0AAAAAEAAfRG5qXQseYgEAAQBcCx5i"
-const CHANNEL ="Nomi"
+const TOKEN = "0066c9da57d6d0348eaa4680b134779b5b0IADvH5wc6bx1RyUbs2mCK7yn4ZbcLqrvxHmeT65xIxOtBUKi5nIAAAAAEAAqKWnBbp0gYgEAAQBsnSBi"
+const CHANNEL ="zain"
+
 
 const client = AgoraRTC.createClient({mode:'rtc', codec:'vp8'})
 
