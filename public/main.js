@@ -1,6 +1,6 @@
 const APP_ID ="6c9da57d6d0348eaa4680b134779b5b0"
-const TOKEN = "0066c9da57d6d0348eaa4680b134779b5b0IADZJBx051Zd6dG57arqcHA6MvlzHOlCYo3GJiUcxEHCUGTNKL8AAAAAEACYVs+KAPYmYgEAAQD99SZi"
-const CHANNEL ="main"
+const TOKEN = "0066c9da57d6d0348eaa4680b134779b5b0IABQTitEaZStuzQIEo6ZwviG29yDvTe/W7hqOZNWlM6eugx+f9gAAAAAEABde88lu6UoYgEAAQC6pShi"
+const CHANNEL ="test"
 
 
 const client = AgoraRTC.createClient({mode:'rtc', codec:'vp8'})
