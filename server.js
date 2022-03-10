@@ -10,6 +10,7 @@ server.listen(PORT, function(){
     console.log(`listing on ${PORT}`);
 })
 
+
 let history =[];
 let users = {};
 let userno = 0;
@@ -54,7 +55,7 @@ function connected (socket){
         socket.broadcast.emit('circle-created',data);
         socket.on('circle_username',data1=>{
             get_username = data1;
-            console.log(get_username);
+            
 
         })
         socket.join(get_username);
@@ -65,7 +66,6 @@ function connected (socket){
         socket.broadcast.emit('user-avator-hided',data);
     })
     socket.on('remove-cirlce', data=>{
-        console.log(data);
         socket.broadcast.emit('removed-circle-from-users',data)
     })
     socket.on('disconnect', message =>{
