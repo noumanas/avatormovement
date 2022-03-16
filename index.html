@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Immersion Creative</title>
+    <style>
+          body {
+      padding: 0;
+      margin: 0;
+    }
+    #join-btn{
+    position: fixed;
+    top:50%;
+    left:50%;
+    display: none;
+    margin-top:-50px;
+    margin-left:-100px;
+    font-size:18px;
+    padding:20px 40px;
+}
+.MapUser_avatar__Fox4Y, .MapUser_MapUser_160Xx{
+    paint-order: stroke;
+    stroke: #fff;
+    stroke-width: 2px;
+}
+.MapUser_avatar__Fox4Y, .MapUser_MapUser_160Xx{
+ 
+   
+   fill: rgb(0, 0, 0);
+}
+.agora_video_player{
+    border-radius: 2%;
+}
+.rectfillcolor{ 
+    /* transform: rotate(45deg); */
+   
+   fill: rgb(0, 0, 0);
+}
+.MapHuddle_circle__1MFe2{
+    position: absolute;
+    stroke: #23883fc9;
+    fill: #38be5e;
+    stroke-width: 3px;
+    opacity: .9;
+}
+.MapHuddle_mine__18Skp{
+    cursor: pointer;
+    position: absolute;
+}
+
+
+#video-streams{
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    height: 90vh;
+    width: 1400px;
+    margin:0 auto;
+}
+
+.video-container{
+    max-height: 100%;
+    border: 2px solid rgb(0, 248, 227);
+    border-radius: 2%;
+    background-color: #203A49;
+}
+
+.video-player{
+    height: 100%;
+    width: 100%;
+}
+
+button{
+    border:none;
+    background-color: cadetblue;
+    color:#fff;
+    padding:10px 20px;
+    font-size:16px;
+    margin:2px;
+    cursor: pointer;
+}
+
+#stream-controls{
+    justify-content: center;
+    margin-top:0.5em;
+}
+
+@media screen and (max-width:1400px){
+    #video-streams{
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        width: 95%;
+    }
+}
+   
+    #send-container {
+      position: fixed;
+      padding-bottom: 30px;
+      bottom: 0;
+      background-color: white;
+      max-width: 1200px;
+      width: 80%;
+      display: flex;
+    }
+
+    #message-input {
+      flex-grow: 1;
+    }
+        line{
+            stroke:#006600;
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: dash 2s linear alternate;
+        }
+        .main{
+            background-image: url(Background.png);
+            background-size: cover;
+            border: 1px solid gray;
+            height: 350px;
+            width: 560px;
+            cursor: crosshair;
+            /* display: none; */
+        }
+        .room{
+            font: italic 25px serif;
+            fill: black;
+            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        }
+        
+        
+        
+
+        @keyframes dash {
+        from {
+            stroke-dashoffset: 1000;
+        }
+        to {
+            stroke-dashoffset: 0;
+        }
+        }
+    </style>
+</head>
+<body>
+    <div class="main" id="main">
+            <svg 
+        xmlns="http://www.w3.org/2000/svg"
+        id="map" 
+        data-cy="map"
+        class="Map_Map__3R7Yv Sidebar_map__2Zulc"
+        style="width:100%;height:100%;"
+        preserveAspectRatio="xMinYMin slice"
+        aria-label="Map" 
+        viewBox="0 0 550 350"
+        >
+        <defs>
+            <linearGradient id="logo-gradient"><stop offset="0%" stop-color="#00a9f2" stop-opacity="100%">
+            </stop><stop offset="100%" stop-color="#03caa5" stop-opacity="100%"></stop>
+            </linearGradient>
+        </defs>
+        <!-- <rect x="205" y="178" width="150px" rx="15" height="150px" stroke="rgb(255, 143, 5)" stroke-width="2%" fill="rgb(252, 217, 119)" />
+        <text x="230" y="217" class="room">Room 1</text> -->
+        </svg>
+    </div>
+    <!-- <canvas id="canvas" tabindex=0 width="640" height=480></canvas> -->
+        <!-- <button id="hellobtn">Say Hello</button>
+        <button id="btn">Create Avator</button>
+        <input id="input" type="text"  placeholder="name"></input> -->
+        <!-- <video id="video" autoplay="true" muted></video> -->
+        <!-- <button id="join-btn"></button> -->
+
+        <div id="stream-wrapper">
+            <div id="video-streams"></div>
+    
+            <div id="stream-controls">
+                <button id="mic-btn">Mic On</button>
+                <button id="camera-btn">Camera on</button>
+            </div>
+        </div>
+        <!-- <div id="message-container"></div> -->
+  <form id="send-container">
+      
+    <input type="text" id="message-input" placeholder="Enter Username">
+    <!-- <input type="text" id="room-input" placeholder="Enter Room"> -->
+    <button type="submit" id="send-button">connect User</button>
+  </form>
+        
+        <script src="https://cdn.jsdelivr.net/npm/socket.io-client@4.4.1/dist/socket.io.min.js"></script>
+        <!-- <script src="userInput.js"></script>
+        <script src="mororgo.js"></script> -->
+        <script src="AgoraRTC_N-4.7.3.js"></script>
+        <script src="main.js"></script>
+        <script src="client.js">
+        </script>
+</body>
+</html>
