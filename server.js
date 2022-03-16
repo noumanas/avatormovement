@@ -11,6 +11,7 @@ server.listen(PORT, function(){
 })
 
 
+
 let history =[];
 let users = {};
 let userno = 0;
@@ -63,9 +64,13 @@ function connected (socket){
     })
     socket.on('hide-user-avator',data=>{
         socket.broadcast.emit('user-avator-hidden',data);
+        console.log('from data'+data);
     })
     socket.on('remove-cirlce', data=>{
         socket.broadcast.emit('removed-circle-from-users',data)
+    })
+    socket.on('show_avator_after_meeting',data=>{
+        socket.broadcast.emit('show_avator_after_meeting_secondp',data)
     })
     socket.on('disconnect', message =>{
         delete users[socket.id];

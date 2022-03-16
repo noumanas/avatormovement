@@ -5,6 +5,7 @@ const messageForm = document.getElementById('send-button');
 const messageInput = document.getElementById('message-input')
 const roomInput = document.getElementById('message-input');
 var mainDiv = document.getElementById("main");
+
 var count =[];
 var limit = 5;
 var one;
@@ -117,10 +118,17 @@ socket.on('removed-circle-from-users',data=>{
 })
 //hide second person avator
 socket.on('hide_avator_second_person',name=>{
-    var second_person_avator_broadcast = document.getElementById(name+"_user_1");
-    second_person_avator_broadcast.style.display = "none";
+    var delayInMilliseconds = 1500;
+    setTimeout(function() {
+        var second_person_avator_broadcast = document.getElementById(name+"_user_1");
+        second_person_avator_broadcast.style.display = "none";
+    },delayInMilliseconds);
+   
 })
-socket
+socket.on('show_avator_after_meeting_secondp',data=>{
+    var second_person_avator_broadcast = document.getElementById(data+"_user_1");
+        second_person_avator_broadcast.style.display = "block";
+})
 
 // send your position..
 socket.on('updated_x' , value1=>{
@@ -129,7 +137,6 @@ socket.on('updated_x' , value1=>{
             rect2getx=value1;
             rect2gety=value2;
             get_username=username;
-            
             var i;
             usersFound = {}
             for(i=0; i<count.length; i++){
@@ -140,10 +147,11 @@ socket.on('updated_x' , value1=>{
                     var get_rect = document.getElementById(username);
                     get_rect.setAttribute('style','fill: rgb(75, 77, 88);');
                     gtrans.setAttribute("transform",attrvalue);
-                    socket.on('user-avator-hidden',data=>{
-                             gtrans.style.display="none";
-                    })
                     gtrans.style.display="block";
+                    socket.on('user-avator-hidden',data=>{
+                        var first_person_avator_broadcast_hide = document.getElementById(data+"_user_1");
+                        first_person_avator_broadcast_hide.style.display="none";
+                    })
                     // if(get_username==username){
                     //     gtrans.style.display="none";
                     // }
@@ -277,8 +285,9 @@ async function  changeDimensions(click , message) {
                             var gtrans = document.getElementById(get_g_id);
                             var second_person_avator = document.getElementById(get_username+"_user_1");
                             gtrans.style.display="none";
-                            second_person_avator.style.display ="none";
-                            socket.emit('hide-user-avator','ok');
+                                second_person_avator.style.display ="none";
+                            
+                            socket.emit('hide-user-avator',one);
                         }
                     }
                     }, delayInMilliseconds);
@@ -297,17 +306,11 @@ async function  changeDimensions(click , message) {
                 
             }
             else{
-                // for(var i =0; i<createcircleArray.length; i++){
-                //     if(createcircleArray[i] ==get_username){
-                //          removecircle();
-                //         console.log("i am from circle class ");
-                //     }
-                //     else{
-                //         console.log("i am not from a circle class ");
-                //     }
-                // }
-                
-               
+                var second_person_avator = document.getElementById(get_username+"_user_1");
+                if(second_person_avator.style.display =="none"){
+                    second_person_avator.style.display ="block";
+                    socket.emit('show_avator_after_meeting',get_username);
+                }
                 leaveAndRemoveLocalStream();
                 for(i=0; i<count.length; i++){
                     if(count[i]==one){
@@ -322,9 +325,6 @@ async function  changeDimensions(click , message) {
                         
                     }
                 }
-                
-                   
-                    
             }
             console.log('eRrror.....');
         }
@@ -379,9 +379,6 @@ function createcircle(attrvalue){
     g_tag.appendChild(createcricle);
     g_tag.appendChild(create_text);
     let circleclick= document.querySelector('.MapHuddle_mine__18Skp');
-    circleclick.addEventListener("click", function() {
-        alert('dont click on circle are you in meeting');
-      });
 }
 function removecircle(){
     numbertext =1;
