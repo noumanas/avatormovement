@@ -54,16 +54,15 @@ function connected (socket){
     socket.on('create_cricle',data=>{
         socket.broadcast.emit('circle-created',data);
         socket.on('circle_username',data1=>{
+            socket.broadcast.emit('hide_avator_second_person',data1)
             get_username = data1;
-            
-
         })
         socket.join(get_username);
         
         socket.broadcast.to(get_username).emit('video-calling',get_username);
     })
     socket.on('hide-user-avator',data=>{
-        socket.broadcast.emit('user-avator-hided',data);
+        socket.broadcast.emit('user-avator-hidden',data);
     })
     socket.on('remove-cirlce', data=>{
         socket.broadcast.emit('removed-circle-from-users',data)

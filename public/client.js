@@ -15,6 +15,8 @@ var rect2getx;
 var rect2gety;
 var numbertext =1;
 var get_username;
+var createcircleArray =[];
+
 // async function videocam(){
 //     let video = document.getElementById("video");
 //     if(navigator.mediaDevices.getUserMedia){
@@ -113,6 +115,12 @@ socket.on('removed-circle-from-users',data=>{
     // console.log('user:cirle: '+data);
     removecircle();
 })
+//hide second person avator
+socket.on('hide_avator_second_person',name=>{
+    var second_person_avator_broadcast = document.getElementById(name+"_user_1");
+    second_person_avator_broadcast.style.display = "none";
+})
+socket
 
 // send your position..
 socket.on('updated_x' , value1=>{
@@ -132,7 +140,7 @@ socket.on('updated_x' , value1=>{
                     var get_rect = document.getElementById(username);
                     get_rect.setAttribute('style','fill: rgb(75, 77, 88);');
                     gtrans.setAttribute("transform",attrvalue);
-                    socket.on('user-avator-hided',data=>{
+                    socket.on('user-avator-hidden',data=>{
                              gtrans.style.display="none";
                     })
                     gtrans.style.display="block";
@@ -256,7 +264,7 @@ async function  changeDimensions(click , message) {
             socket.emit('value_of_y', y); 
             socket.emit('username',one);
             
-            if(getDistance(getx1, gety1, rect2getx, rect2gety)<10+10){
+            if(getDistance(getx1, gety1, rect2getx, rect2gety)<5+5){
                 joinStream();
                 // ++numbertext;
                
@@ -267,8 +275,10 @@ async function  changeDimensions(click , message) {
                         if(count[i]==one){
                             var get_g_id = document.getElementsByClassName('MapUser_MapUser_160Xx')[i].id;
                             var gtrans = document.getElementById(get_g_id);
-                            // gtrans.style.display="none";
-                            // socket.emit('hide-user-avator','ok');
+                            var second_person_avator = document.getElementById(get_username+"_user_1");
+                            gtrans.style.display="none";
+                            second_person_avator.style.display ="none";
+                            socket.emit('hide-user-avator','ok');
                         }
                     }
                     }, delayInMilliseconds);
@@ -355,18 +365,23 @@ function createcircle(attrvalue){
     document.getElementById("map").appendChild(g_tag);
     var createcricle = document.createElementNS("http://www.w3.org/2000/svg","circle");
     createcricle.setAttribute('class', 'MapHuddle_circle__1MFe2');
-    createcricle.setAttribute('style', 'fill: #015142; display:block;');
-    createcricle.setAttribute('r', '24');
+    createcricle.setAttribute('r', '20');
     var create_text = document.createElementNS("http://www.w3.org/2000/svg","text");
-                create_text.setAttribute('font-size',42);
+                create_text.setAttribute('font-size',22);
+                create_text.setAttribute('font-family',"Arial");
+                create_text.setAttribute('font-weight','600');
                  create_text.setAttribute("class","text");
-                 create_text.setAttribute('x',-8);
-                 create_text.setAttribute('y',10);
+                 create_text.setAttribute('x',-6);
+                 create_text.setAttribute('y',8);
                  create_text.setAttribute("style","fill: #fff;");
                  var newtext = document.createTextNode(numbertext);
                  create_text.appendChild(newtext);
     g_tag.appendChild(createcricle);
     g_tag.appendChild(create_text);
+    let circleclick= document.querySelector('.MapHuddle_mine__18Skp');
+    circleclick.addEventListener("click", function() {
+        alert('dont click on circle are you in meeting');
+      });
 }
 function removecircle(){
     numbertext =1;
