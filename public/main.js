@@ -1,10 +1,15 @@
 const APP_ID ="6c9da57d6d0348eaa4680b134779b5b0"
-const TOKEN = "0066c9da57d6d0348eaa4680b134779b5b0IABCKVSd4RYKovMdP2U2qt9V6l9Lihr9BpmeMC5IekOHeGTNKL8AAAAAEACNSCPi9+wyYgEAAQD17DJi"
+const TOKEN = "0066c9da57d6d0348eaa4680b134779b5b0IADqbn5DCnzEyo/Zx1eZFJ+UcSMc2DRGVceSMGycb+1umGTNKL8AAAAAEACNSCPi/4E0YgEAAQD+gTRi"
 const CHANNEL ="main"
 
 
-const client = AgoraRTC.createClient({mode:'rtc', codec:'vp8'})
 
+let client = AgoraRTC.createClient({mode:'rtc', codec:'vp8'});
+// client.init("6c9da57d6d0348eaa4680b134779b5b0", function() {
+//     console.log("client initialized");
+// }, function(err) {
+//     console.log("client init failed ", err);
+// });
 let localTracks = []
 let remoteUsers = {}
 
@@ -14,11 +19,11 @@ let joinAndDisplayLocalStream = async () => {
     
     client.on('user-left', handleUserLeft)
     
-    let UID = await client.join(APP_ID, CHANNEL, TOKEN, null)
+    let UID = await client.join(APP_ID, CHANNEL, TOKEN, null);
 
     localTracks = await AgoraRTC.createMicrophoneAndCameraTracks() 
 
-    let player = `<div class="video-container" id="user-container-${UID}">
+    let player = `<div class="video-container" id="user-container-${UID}" style="border-radius: 2%">
                         <div class="video-player" id="user-${UID}"></div>
                   </div>`
     document.getElementById('video-streams').insertAdjacentHTML('beforeend', player)
@@ -26,8 +31,29 @@ let joinAndDisplayLocalStream = async () => {
     localTracks[1].play(`user-${UID}`)
     
     await client.publish([localTracks[0], localTracks[1]])
-}
 
+}
+let foruser_local_track = async () => {
+
+    // client.on('user-published', handleUserJoined)
+    
+    // client.on('user-left', handleUserLeft)
+    
+    
+    let UID = await client.join(APP_ID, CHANNEL, TOKEN, null);
+
+    localTracks = await AgoraRTC.createMicrophoneAndCameraTracks() 
+
+    let player = `<div class="video-local_container">
+                        <div class="video-player1" id="user-${UID}"></div>
+                  </div>`
+    document.getElementById('local_video').insertAdjacentHTML('beforeend', player)
+
+    localTracks[1].play(`user-${UID}`)
+    
+    await client.publish([localTracks[0], localTracks[1]])
+
+}
 let joinStream = async () => {
     await joinAndDisplayLocalStream()
     // document.getElementById('join-btn').style.display = 'none'
@@ -37,6 +63,7 @@ let joinStream = async () => {
 let handleUserJoined = async (user, mediaType) => {
     remoteUsers[user.uid] = user 
     await client.subscribe(user, mediaType)
+   
 
     if (mediaType === 'video'){
         let player = document.getElementById(`user-container-${user.uid}`)
@@ -94,6 +121,39 @@ let toggleCamera = async (e) => {
         await localTracks[1].setMuted(true)
         e.target.innerText = 'Camera off'
         e.target.style.backgroundColor = '#EE4B2B'
+    }
+}
+let toggleMic_for_local = async (e) => {
+    if (localTracks[0].muted){
+        await localTracks[0].setMuted(false)
+        mic_icon.style.backgroundColor = '#fff'
+        const mic_muted_notification =document.getElementById('mic_muted_notification');
+        const mic = document.getElementById('mic');
+        mic.setAttribute('src','assets/Mic_On.svg');
+        mic_muted_notification.style.display ="none";
+
+    }else{
+        await localTracks[0].setMuted(true)
+        mic_icon.style.backgroundColor = 'red'
+        const mic_muted_notification =document.getElementById('mic_muted_notification');
+        const mic = document.getElementById('mic');
+        mic.setAttribute('src','assets/Mic_Off.svg');
+        mic_muted_notification.style.display = "block";
+    }
+}
+
+let toggleCamera_for_local = async (e) => {
+    if(localTracks[1].muted){
+        await localTracks[1].setMuted(false)
+        camera_off.style.backgroundColor = '#fff'
+        const cam = document.getElementById('cam');
+        cam.setAttribute('src','assets/Camera_On.svg');
+        
+    }else{
+        await localTracks[1].setMuted(true)
+        camera_off.style.backgroundColor = 'red'
+        const cam = document.getElementById('cam');
+        cam.setAttribute('src','assets/Camera_Off.svg');
     }
 }
 

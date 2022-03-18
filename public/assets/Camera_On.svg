@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="14" viewBox="0 0 16 14">
+  <g id="Group_3" data-name="Group 3" transform="translate(250 -613)">
+    <path id="Op_component_1" data-name="Op component 1" d="M458,163l1,2h3v8H450v-8h3l1-2h4m0-2h-4a2,2,0,0,0-1.789,1.105l-.447.895H450a2,2,0,0,0-2,2v8a2,2,0,0,0,2,2h12a2,2,0,0,0,2-2v-8a2,2,0,0,0-2-2h-1.764l-.447-.895A2,2,0,0,0,458,161Z" transform="translate(-698 452)" fill="#0066eb"/>
+    <path id="Op_component_2" data-name="Op component 2" d="M456,168a1,1,0,1,1-1,1,1,1,0,0,1,1-1m0-2a3,3,0,1,0,3,3,3,3,0,0,0-3-3Z" transform="translate(-698 452)" fill="#0066eb"/>
+  </g>
+</svg>
