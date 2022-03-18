@@ -1,3 +1,4 @@
+
 window.onload = function(){  
       
 
@@ -11,15 +12,15 @@ window.onload = function(){
     //     console.log('Error on Video Starting');
     // })
 }
-
-const socket =io.connect();
 const camera_off = document.querySelector('.camera_icon');
 const mic_icon = document.querySelector('.mic_icon');
+const socket = io('http://localhost:3200');
 const form = document.getElementById('send-container');
 const messagecontainer = document.getElementById('message-container');
 const messageForm = document.getElementById('send-button');
-const messageInput = document.getElementById('message-input')
+const messageInput = document.getElementById('message-input');
 const roomInput = document.getElementById('message-input');
+const container = document.querySelector('.container');
 var mainDiv = document.getElementById("main");
 
 var count =[];
