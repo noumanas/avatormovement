@@ -1,26 +1,13 @@
-
-window.onload = function(){  
-      
-
-    foruser_local_track();
-    // var constraints = {audio:true,video:true};
-    // navigator.mediaDevices.getUserMedia(constraints).then(function(mediaStream){
-    //     var video = document.querySelector('video');
-    //     video.srcObject=mediaStream;
-    //     video.play();
-    // }).catch(function(err){
-    //     console.log('Error on Video Starting');
-    // })
-}
+const socket = io('http://localhost:3200');
 const camera_off = document.querySelector('.camera_icon');
 const mic_icon = document.querySelector('.mic_icon');
-const socket = io('http://localhost:3200');
 const form = document.getElementById('send-container');
 const messagecontainer = document.getElementById('message-container');
 const messageForm = document.getElementById('send-button');
 const messageInput = document.getElementById('message-input');
 const roomInput = document.getElementById('message-input');
 const container = document.querySelector('.container');
+
 var mainDiv = document.getElementById("main");
 
 var count =[];
@@ -34,6 +21,19 @@ var rect2gety;
 var numbertext =1;
 var get_username;
 var createcircleArray =[];
+window.onload = function(){  
+      
+
+    foruser_local_track();
+    // var constraints = {audio:true,video:true};
+    // navigator.mediaDevices.getUserMedia(constraints).then(function(mediaStream){
+    //     var video = document.querySelector('video');
+    //     video.srcObject=mediaStream;
+    //     video.play();
+    // }).catch(function(err){
+    //     console.log('Error on Video Starting');
+    // })
+}
 camera_off.addEventListener('click', toggleCamera_for_local );
 mic_icon.addEventListener('click', toggleMic_for_local);
 // camera_off.addEventListener('click',function(){
