@@ -17,14 +17,32 @@ let users = {};
 let userno = 0;
 let roomNo;
 let userid;
+let roomMember = [];
 let get_username =[];
 io.on('connection', connected);
 function connected (socket){
-            userno+1;
-            roomNo =1;
+            socket.on("join",room=>{
+                socket.join(room)
+                roomNo=room;
+            })
+            socket.on("memberConnected", member=>{
+                roomMember.push(member);
+                console.log('Room Member List: '+roomMember.length);
+                socket.to(roomNo).emit("joinedroom",roomMember);
+            })
+            socket.on("leave",room=>{
+                socket.leave(room);
+               console.log('Room Member List: '+roomMember );
+            })
+            socket.on("memberDisconnected", data=>{
+                roomMember.pop(data);
+                socket.to(roomNo).emit("leavedroom",data);
+            })
+            // userno+1;
+            // roomNo =1;
             userid=socket.id;
-            socket.join(roomNo); 
-            socket.emit('rooms', {userno: userno, roomNo: roomNo , userid:userid});
+            // socket.join(roomNo); 
+            // socket.emit('rooms', {userno: userno, roomNo: roomNo , userid:userid});
             socket.on('send-chat-message', (message) =>{
             console.log("new user connected with id: "+socket.id);
             users[socket.id] = message;
@@ -32,6 +50,7 @@ function connected (socket){
             console.log('user name: '+message)
             socket.emit('users', history);
             console.log('total users: '+Object.keys(users).length);
+            socket.broadcast.emit('send_total_number',Object.keys(users).length)
             socket.broadcast.emit('send-userid', socket.id);
             socket.broadcast.emit('chat-message', message);
             socket.emit('chat-message',message);
@@ -58,9 +77,9 @@ function connected (socket){
             socket.broadcast.emit('hide_avator_second_person',data1)
             get_username = data1;
         })
-        socket.join(get_username);
+        // socket.join(get_username);
         
-        socket.broadcast.to(get_username).emit('video-calling',get_username);
+        // socket.broadcast.to(get_username).emit('video-calling',get_username);
     })
     socket.on('hide-user-avator',data=>{
         socket.broadcast.emit('user-avator-hidden',data);
@@ -71,6 +90,9 @@ function connected (socket){
     })
     socket.on('show_avator_after_meeting',data=>{
         socket.broadcast.emit('show_avator_after_meeting_secondp',data)
+    })
+    socket.on('cirlce_number',data=>{
+        socket.broadcast.emit('circle_number_updated',data)
     })
     socket.on('disconnect', message =>{
         delete users[socket.id];
