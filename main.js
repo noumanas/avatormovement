@@ -1,5 +1,5 @@
 const APP_ID ="6c9da57d6d0348eaa4680b134779b5b0"
-const TOKEN = "0066c9da57d6d0348eaa4680b134779b5b0IADs9ibOfgKnPUrWf60APRvvZDXFSLIdI8tvvY9DRJV9mGTNKL8AAAAAEADAxvLacKcwYgEAAQBvpzBi"
+const TOKEN = "0066c9da57d6d0348eaa4680b134779b5b0IABmNQ1fy3uUfxnrCzZUU6bJhbPjOE2Ed+VbAy0PLtk9/2TNKL8AAAAAEADJZeRXPXFLYgEAAQA9cUti"
 const CHANNEL ="main"
 
 
@@ -27,6 +27,13 @@ let joinAndDisplayLocalStream = async () => {
     
     await client.publish([localTracks[0], localTracks[1]])
 }
+async function startScreenCall() {
+  
+    const screenTrack = await AgoraRTC.createScreenVideoTrack();
+    await client.publish(screenTrack);
+  
+    return client;
+  }
 
 let joinStream = async () => {
     await joinAndDisplayLocalStream()
@@ -101,3 +108,4 @@ let toggleCamera = async (e) => {
 // document.getElementById('leave-btn').addEventListener('click', leaveAndRemoveLocalStream)
 document.getElementById('mic-btn').addEventListener('click', toggleMic)
 document.getElementById('camera-btn').addEventListener('click', toggleCamera)
+document.getElementById('screenShare-btn'.addEventListener('click',startScreenCall))
