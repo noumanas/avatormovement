@@ -11,7 +11,6 @@ server.listen(PORT, function(){
 })
 
 
-
 let history =[];
 let users = {};
 let userno = 0;
@@ -21,6 +20,7 @@ let roomMember = [];
 let get_username =[];
 io.on('connection', connected);
 function connected (socket){
+    
             socket.on("join",room=>{
                 socket.join(room)
                 roomNo=room;
@@ -103,4 +103,3 @@ function connected (socket){
 
     })
 }
-

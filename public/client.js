@@ -1,27 +1,3 @@
-const socket =io.connect();
-const camera_off = document.querySelector('.camera_icon');
-const mic_icon = document.querySelector('.mic_icon');
-const form = document.getElementById('send-container');
-const messagecontainer = document.getElementById('message-container');
-const messageForm = document.getElementById('send-button');
-const messageInput = document.getElementById('message-input');
-const roomInput = document.getElementById('message-input');
-const container = document.querySelector('.container');
-
-var mainDiv = document.getElementById("main");
-
-var count =[];
-var limit = 5;
-var one;
-var two;
-var id=[];
-var history2 = [];
-var rect2getx;
-var rect2gety;
-var numbertext =1;
-var get_username;
-var createcircleArray =[];
-var room =10;
 window.onload = function(){  
       
 
@@ -35,8 +11,36 @@ window.onload = function(){
     //     console.log('Error on Video Starting');
     // })
 }
+const socket =io.connect();
+const camera_off = document.querySelector('.camera_icon');
+const mic_icon = document.querySelector('.mic_icon');
+const form = document.getElementById('send-container');
+const messagecontainer = document.getElementById('message-container');
+const messageForm = document.getElementById('send-button');
+const messageInput = document.getElementById('message-input');
+const roomInput = document.getElementById('message-input');
+const container = document.querySelector('.container');
+
+var mainDiv = document.getElementById("main");
+
+
+var count =[];
+var limit = 5;
+var one;
+var two;
+var id=[];
+var history2 = [];
+var rect2getx;
+var rect2gety;
+var numbertext =1;
+var get_username;
+var createcircleArray =[];
+var room =10;
 camera_off.addEventListener('click', toggleCamera_for_local );
 mic_icon.addEventListener('click', toggleMic_for_local);
+localStorage.setItem('all',JSON.stringify(history2));
+const values = localStorage.getItem('all')
+console.log('i am from localStorage : ',values[0] );
 // camera_off.addEventListener('click',function(){
 //     var constraints = {audio:false,video:true};
 //     navigator.mediaDevices.getUserMedia(constraints).then(function(mediaStream){
@@ -89,15 +93,17 @@ socket.on('circle_number_updated',data=>{
     console.log('number value : '+numbertext)
 })
 
+
 let clientRoom;
 let userId;
 console.log('home All Ids: '+id);
-socket.on('rooms', data=>{
-    console.log('connected Users: '+data.userno);
-    console.log('Room No: '+data.roomNo);
-    console.log('userId: '+data.userid);
+// socket.on('rooms', data=>{
+//     console.log('connected Users: '+data.userno);
+//     console.log('Room No: '+data.roomNo);
+//     console.log('userId: '+data.userid);
     
-})
+// })
+
 
 socket.on('users',function(data2){
     history2 = data2;
@@ -323,6 +329,8 @@ async function  changeDimensions(click , message) {
                 socket.emit("memberConnected",one);
                 room++;
                 // numbertext++;
+                let num =5;
+                let circleclick= document.querySelector('.MapHuddle_mine__18Skp')[1].replaceChild(newtext,num);
                 joinStream();
                 removecircle();
                 createcircle(attrvalue);
@@ -396,7 +404,7 @@ function createcircle(attrvalue){
                  create_text.appendChild(newtext);
     g_tag.appendChild(createcricle);
     g_tag.appendChild(create_text);
-    let circleclick= document.querySelector('.MapHuddle_mine__18Skp');
+    
 }
 function removecircle(){
     var get_cricle =  document.getElementById('createCirlce');
@@ -415,3 +423,4 @@ function getDistance(x1, y1, x2, y2){
 }
 
 mainDiv.addEventListener('click', changeDimensions);
+
