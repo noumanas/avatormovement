@@ -27,6 +27,29 @@ const container = document.querySelector('.container');
 
 var mainDiv = document.getElementById("main");
 
+window.addEventListener('load',()=>{
+    const room = getQString(location.href, 'room');
+    const username = sessionStorage.getItem('username');
+
+    if(!room){
+        document.querySelector( '#room-create' ).attributes.removeNamedItem( 'hidden' );
+    }
+    else if ( !username ) {
+        document.querySelector( '#username-set' ).attributes.removeNamedItem( 'hidden' );
+        socket.emit('send-chat-message', username );
+    }
+    else{
+        mainDiv.style.display="block";
+        socket.emit('send-chat-message', username );
+        one=username;
+        console.log('meesage chekcing : '+one);
+        socket.emit("join",room);
+        
+    }
+});
+
+
+
 
 
 var count =[];
@@ -81,6 +104,10 @@ console.log('i am from localStorage : ',values[0] );
 //     video.srcObject = null;
 //     }
 // }
+socket.on('chat-message',  function(data){
+    appendMessage(data);
+    create_attendes_list(data);
+   })
 socket.on("joinedroom",roomMember=>{
     var total_mem = roomMember.length;
     total_mem++;
@@ -118,10 +145,15 @@ socket.on('users',function(data2){
         for(var j =0; j<history2.length; j++){
             if(history2[j]==one){
                 console.log('i am from History Var :'+history2[j]);
+                
             }else{
                 console.log('i am from else Var :'+history2[j]);
+                if(history2.length ==3 || history2.length >2);{
                     appendMessage(history2[j]);
                     create_attendes_list(history2[j]);
+                }
+                    
+                   
                 
                     
             }
@@ -131,11 +163,7 @@ socket.on('users',function(data2){
  socket.on('uservideocall',data=>{
      console.log('video calling: '+data);
  })
-socket.on('chat-message',  function(data){
-    appendMessage(data);
-    create_attendes_list(data);
-    
-   })
+
 
     const ctx = document.getElementById('map');
 
@@ -208,14 +236,15 @@ socket.on('updated_x' , value1=>{
  })
 messageForm.addEventListener('click', e=>{
     e.preventDefault()
-    const message = messageInput.value;
-    one=message;
-    socket.emit('send-chat-message', message );
-    messageInput.value = ''
-    mainDiv.style.display="block";
-    form.style.display="none";
-    container.style.display="none";
-    document.getElementById('stream-controls').style.display = 'flex'
+    createRoomLink();
+    // const message = messageInput.value;
+    // one=message;
+    // console.log('meesage chekcing : '+one);
+    // messageInput.value = ''
+    // mainDiv.style.display="block";
+    // form.style.display="none";
+    // container.style.display="none";
+    // document.getElementById('stream-controls').style.display = 'flex'
 })
 function userdisconnected(userid){
     console.log(userid);
@@ -237,11 +266,12 @@ function userdisconnected(userid){
         
     }
 }
-//
+//create avator with name 
 function appendMessage(message){
     
     const gettext = message;
     count.push(message);
+    console.log(count);
     id.push(two);
     console.log('all Id:'+id);
     var g_tag = document.createElementNS("http://www.w3.org/2000/svg","g");
@@ -278,7 +308,8 @@ function appendMessage(message){
 function transition(valueX, valueY){
       
 }
-async function  changeDimensions(click , message) {
+//avator walking function 
+ function  changeDimensions(click , message) {
    var i=0;
     const get_id = count;
     usersFound ={};
@@ -341,7 +372,6 @@ async function  changeDimensions(click , message) {
                 socket.emit("join",room);
                 socket.emit("memberConnected",one);
                 room++;
-                
                 joinStream();
                 // ++numbertext;
                 var delayInMilliseconds = 1500; //1 second
@@ -390,7 +420,7 @@ async function  changeDimensions(click , message) {
             else{
                 var second_person_avator = document.getElementById(get_username+"_user_1");
                 if(second_person_avator.style.display =="none"){
-                    // second_person_avator.style.display ="block";
+                    second_person_avator.style.display ="block";
                     socket.emit('show_avator_after_meeting',get_username);
                 }
                 
@@ -418,6 +448,7 @@ async function  changeDimensions(click , message) {
 function Choose() {
     console.log('click..............');
   }
+  //create Circle function 
 function createcircle(attrvalue){
    
     var g_tag = document.createElementNS("http://www.w3.org/2000/svg","g");
@@ -472,3 +503,84 @@ map_show_hide.classList.toggle('active');
 }
 mainDiv.addEventListener('click', changeDimensions);
 // map_show_hide.addEventListener('click',mapshowhide())
+function generateRandomString() {
+    const crypto = window.crypto || window.msCrypto;
+    let array = new Uint32Array(1);
+    
+    return crypto.getRandomValues(array);
+}
+
+function createRoomLink(){
+
+    let roomName = document.querySelector( '#room-name' ).value;
+    let yourName = document.querySelector( '#message-input' ).value;
+    
+    if ( roomName && yourName ) {
+        //remove error message, if any
+        document.querySelector('#err-msg').innerText = "";
+        
+        //save the user's name in sessionStorage
+        sessionStorage.setItem( 'username', yourName );
+
+        //create room link
+        let roomLink = `${ location.origin }?room=${ roomName.trim().replace( ' ', '_' ) }_${ generateRandomString() }`;
+        //show message with link to room
+        document.querySelector( '#room-created' ).innerHTML = `Room successfully created. Click <a href='${ roomLink }'>here</a> to enter room. 
+            Share the room link with your partners.`;
+
+        //empty the values
+        document.querySelector( '#room-name' ).value = '';
+        document.querySelector( '#message-input' ).value = '';
+    }
+
+    else {
+        document.querySelector('#err-msg').innerText = "All fields are required";
+    }
+} 
+
+document.getElementById( 'enter-room' ).addEventListener( 'click', ( e ) => {
+    e.preventDefault();
+
+    let name = document.querySelector( '#username' ).value;
+
+    if ( name ) {
+        //remove error message, if any
+        document.querySelector('#err-msg-username').innerText = "";
+
+        //save the user's name in sessionStorage
+        sessionStorage.setItem( 'username', name );
+
+        //reload room
+        location.reload();
+    }
+
+    else {
+        document.querySelector('#err-msg-username').innerText = "Please input your name";
+    }
+} );
+function getQString( url = '', keyToReturn = '' ) {
+    url = url ? url : location.href;
+    let queryStrings = decodeURIComponent( url ).split( '#', 2 )[0].split( '?', 2 )[1];
+
+    if ( queryStrings ) {
+        let splittedQStrings = queryStrings.split( '&' );
+
+        if ( splittedQStrings.length ) {
+            let queryStringObj = {};
+
+            splittedQStrings.forEach( function ( keyValuePair ) {
+                let keyValue = keyValuePair.split( '=', 2 );
+
+                if ( keyValue.length ) {
+                    queryStringObj[keyValue[0]] = keyValue[1];
+                }
+            } );
+
+            return keyToReturn ? ( queryStringObj[keyToReturn] ? queryStringObj[keyToReturn] : null ) : queryStringObj;
+        }
+
+        return null;
+    }
+
+    return null;
+}
