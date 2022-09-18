@@ -1,6 +1,7 @@
 const APP_ID ="6c9da57d6d0348eaa4680b134779b5b0"
-const TOKEN = "006b28a54628f2a4f958c0c2dadb5670112IABb5K15NFbM6blu9TGjWSy2pa1p+d0hvIUp4D5xni/YHGTNKL8AAAAAIgCofO4qgZ6DYgQAAQB9noNiAgB9noNiAwB9noNiBAB9noNi"
+const TOKEN = "0066c9da57d6d0348eaa4680b134779b5b0IAAO3Qs1R1qvK6632lAa5XXvmXs1ndNMiN3BBi/nMSS1fGTNKL8AAAAAEAC5bVGztN6pYgEAAQCz3qli"
 const CHANNEL ="main"
+
 
 
 
@@ -27,14 +28,15 @@ let joinAndDisplayLocalStream = async () => {
     let UID = await client.join(APP_ID, CHANNEL, TOKEN, null);
 
     localTracks = await AgoraRTC.createMicrophoneAndCameraTracks();
-    let player = `<div class="video-container" id="user-container-${UID}" style="border-radius: 2%">
+    let player = `<div class="video-container" id="user-container-${UID}">
+    <div class="username">${one}</div>
                         <div class="video-player" id="user-${UID}"></div>
                   </div>`
     document.getElementById('video-streams').insertAdjacentHTML('beforeend', player)
 
     localTracks[1].play(`user-${UID}`)
     
-    await client.publish([localTracks[0], localTracks[1]])
+    await client.publish([localTracks[0], localTracks[1]]);
 
 }
 // async function startScreenCall() {
@@ -120,6 +122,7 @@ let leaveAndRemoveLocalStream = async () => {
         localTracks[i].close()
         
     }
+    
 
     await client.leave()
     document.getElementById('stream-controls').style.display = 'none'
@@ -155,7 +158,7 @@ let toggleCamera = async (e) => {
     }
 }
 let toggleMic_for_local = async (e) => {
-    if (localTracks[1].muted){
+    if (localTracks[0].muted){
         await localTracks[0].setMuted(false)
         mic_icon.style.backgroundColor = '#fff'
         const mic_muted_notification =document.getElementById('mic_muted_notification');
@@ -164,10 +167,30 @@ let toggleMic_for_local = async (e) => {
         mic_muted_notification.style.display ="none";
 
     }else{
-        await localTracks[1].setMuted(true)
+        await localTracks[0].setMuted(true)
         mic_icon.style.backgroundColor = 'red'
         const mic_muted_notification =document.getElementById('mic_muted_notification');
         const mic = document.getElementById('mic');
+        mic.setAttribute('src','assets/Mic_Off.svg');
+        mic_muted_notification.style.display = "block";
+    }
+}
+let toggleMic_for_stream = async (e) => {
+    if (localTracks[0].muted){
+        await localTracks[0].setMuted(false)
+        stream_mic_icon.style.backgroundColor = '#0066EB'
+        stream_mic_icon.classList.add('btn-one-shadow');
+        const mic_muted_notification =document.getElementById('mic_muted_notification');
+        const mic = document.getElementById('stream-mic');
+        mic.setAttribute('src','assets/mic.png');
+        mic_muted_notification.style.display ="none";
+
+    }else{
+        await localTracks[0].setMuted(true)
+        stream_mic_icon.style.backgroundColor = 'red'
+        stream_mic_icon.classList.remove('btn-one-shadow');
+        const mic_muted_notification =document.getElementById('mic_muted_notification');
+        const mic = document.getElementById('stream-mic');
         mic.setAttribute('src','assets/Mic_Off.svg');
         mic_muted_notification.style.display = "block";
     }
@@ -187,20 +210,35 @@ let toggleCamera_for_local = async (e) => {
         cam.setAttribute('src','assets/Camera_Off.svg');
     }
 }
+let toggleCamera_for_stream = async (e) => {
+    if(localTracks[1].muted){
+        await localTracks[1].setMuted(false)
+        stream_camera_off.style.backgroundColor = '#0066EB'
+        stream_camera_off.classList.add('btn-one-shadow');
+        const cam = document.getElementById('video-cam');
+        cam.setAttribute('src','assets/cam_2_2.png');
+        
+    }else{
+        await localTracks[1].setMuted(true)
+        stream_camera_off.style.backgroundColor = 'red'
+        stream_camera_off.classList.remove('btn-one-shadow');
+        const cam = document.getElementById('video-cam');
+        cam.setAttribute('src','assets/Camera_Off.svg');
+    }
+}
 let ScreenSharingToggle = async(e) =>{
     if(localscreenTrack == 1){
         // await screenTrack[0].setMuted(false)
+        stream_screen_share.style.backgroundColor ='#0066EB';
+        stream_screen_share.classList.add('btn-one-shadow');
         localscreenTrack=0;
-        e.target.innerText = 'Screen Share'
-        e.target.style.backgroundColor = 'cadetblue'
         console.log('i am from if condition');
         screenClient.leave();
     }
     else{
-        e.target.innerText = 'Screen Share Stop'
-        e.target.style.backgroundColor = '#EE4B2B'
+        stream_screen_share.style.backgroundColor ='#35DF04';
+        stream_screen_share.classList.remove('btn-one-shadow');
         screensharing();
-        
         console.log('i am from  else');
     }
 }
@@ -219,6 +257,6 @@ function handleTrackEnded() {
 
 // document.getElementById('join-btn').addEventListener('click', joinStream)
 // document.getElementById('leave-btn').addEventListener('click', leaveAndRemoveLocalStream)
-document.getElementById('mic-btn').addEventListener('click', toggleMic)
-document.getElementById('camera-btn').addEventListener('click', toggleCamera)
+document.querySelector('.stream_mic_icon').addEventListener('click',  toggleMic_for_stream)
+document.querySelector('.stream_camera_icon').addEventListener('click', toggleCamera_for_stream)
 document.getElementById('screen-share-btn').addEventListener('click',ScreenSharingToggle)
