@@ -51,7 +51,7 @@ position: absolute;
 display:grid;
 grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
 height: 90vh;
-width: 1400px;
+width: 1080px;
 margin:0 auto;
 }
 
@@ -80,6 +80,11 @@ font-size:16px;
 margin:2px;
 cursor: pointer;
 }
+.main-container{
+display: flex;
+height: 100%;
+width: 100%;
+}
 
 #stream-controls{
 justify-content: center;
@@ -94,6 +99,15 @@ display: none;
     width: 95%;
 }
 }
+@media screen and (max-width: 992px) {
+.container{
+  flex-direction: column;
+}
+.video_access{
+  margin-top: 2rem;
+}
+}
+
 
 #send-container {
   position: fixed;
@@ -114,11 +128,12 @@ display: none;
         animation: dash 2s linear alternate;
     }
     .main{
-        background-image: url(Background.png);
-        background-size: cover;
-        border: 1px solid gray;
-        height: 350px;
-        width: 560px;
+        background-image: url(RoomSketcher-Commercial-Office-Floor-Plan_1000w.jpg);
+        background-repeat: no-repeat;
+        background-size: 87%;
+        /* border: 1px solid gray; */
+        height: 100vh;
+        width: 45%;
         cursor: crosshair;
         display: none;
     }
@@ -166,6 +181,7 @@ display: none;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      margin-left: 43px;
     }
     .camera_icon , .mic_icon{
         display: flex;
@@ -197,7 +213,7 @@ display: none;
     }
     .heding h1{
       text-align: left;
-      font-size: 80px;
+      font-size: 70px;
       letter-spacing: 0px;
       font-family: MADEBruno;
       color: #0066EB;
@@ -227,7 +243,7 @@ display: none;
       color: inherit;
       background: none;
       cursor: pointer;
-      padding: 10px 92px;
+      padding: 3px 92px;
       display: inline-block;
       text-align: center;
       margin: 15px 0px;
@@ -267,7 +283,7 @@ display: none;
       transition: none;
   }
   .btn-2d {
-      border-radius: 5px;
+      border-radius: 12px;
   }
   
   .btn-2d:hover {
@@ -290,7 +306,7 @@ display: none;
     .name input {
         background-color:transparent;
         border: none;
-        width: 80%;
+        width: 90%;
     }
     input:focus{
       background-color:transparent;
@@ -299,7 +315,7 @@ display: none;
     .email input{
       background-color:transparent;
       border: none;
-      width: 80%;
+      width: 90%;
     }
     .you_are_muted{
         background-color: #FFFFFF;

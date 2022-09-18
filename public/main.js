@@ -1,5 +1,5 @@
 const APP_ID ="6c9da57d6d0348eaa4680b134779b5b0"
-const TOKEN = "0066c9da57d6d0348eaa4680b134779b5b0IABEnG/kxwmr2N7Liy2+Et+ptbLL7668KxA2hhCfRybAgWTNKL8AAAAAEACRu1OVHz1gYgEAAQAePWBi"
+const TOKEN = "006b28a54628f2a4f958c0c2dadb5670112IABb5K15NFbM6blu9TGjWSy2pa1p+d0hvIUp4D5xni/YHGTNKL8AAAAAIgCofO4qgZ6DYgQAAQB9noNiAgB9noNiAwB9noNiBAB9noNi"
 const CHANNEL ="main"
 
 
@@ -55,7 +55,6 @@ let foruser_local_track = async () => {
     // client.on('user-left', handleUserLeft)
     
     
-    let UID = await client.join(APP_ID, CHANNEL, TOKEN, null);
 
     localTracks = await AgoraRTC.createMicrophoneAndCameraTracks() 
 
@@ -66,7 +65,6 @@ let foruser_local_track = async () => {
 
     localTracks[1].play(`user-${UID}`)
     
-    await client.publish(Object.values(localTracks));
 
 }
 async function screensharing() {

@@ -14,6 +14,10 @@ window.onload = function(){
 const socket =io.connect();
 const camera_off = document.querySelector('.camera_icon');
 const mic_icon = document.querySelector('.mic_icon');
+const stream_camera_off = document.querySelector('.stream_camera_icon');
+const stream_mic_icon = document.querySelector('.stream_mic_icon');
+const stream_screen_share = document.getElementById('screen-share-btn');
+const map_show_hide =document.querySelector('.map-show-hide');
 const form = document.getElementById('send-container');
 const messagecontainer = document.getElementById('message-container');
 const messageForm = document.getElementById('send-button');
@@ -22,6 +26,7 @@ const roomInput = document.getElementById('message-input');
 const container = document.querySelector('.container');
 
 var mainDiv = document.getElementById("main");
+
 
 
 var count =[];
@@ -38,6 +43,7 @@ var createcircleArray =[];
 var room =10;
 camera_off.addEventListener('click', toggleCamera_for_local );
 mic_icon.addEventListener('click', toggleMic_for_local);
+
 localStorage.setItem('all',JSON.stringify(history2));
 const values = localStorage.getItem('all')
 console.log('i am from localStorage : ',values[0] );
@@ -114,7 +120,10 @@ socket.on('users',function(data2){
                 console.log('i am from History Var :'+history2[j]);
             }else{
                 console.log('i am from else Var :'+history2[j]);
-                appendMessage(history2[j]);
+                    appendMessage(history2[j]);
+                    create_attendes_list(history2[j]);
+                
+                    
             }
             
         }    
@@ -124,6 +133,7 @@ socket.on('users',function(data2){
  })
 socket.on('chat-message',  function(data){
     appendMessage(data);
+    create_attendes_list(data);
     
    })
 
@@ -205,6 +215,7 @@ messageForm.addEventListener('click', e=>{
     mainDiv.style.display="block";
     form.style.display="none";
     container.style.display="none";
+    document.getElementById('stream-controls').style.display = 'flex'
 })
 function userdisconnected(userid){
     console.log(userid);
@@ -217,6 +228,9 @@ function userdisconnected(userid){
             var get_g_id = document.getElementsByClassName('MapUser_MapUser_160Xx')[i].id;
             var gtrans = document.getElementById(get_g_id);
             gtrans.remove();
+            var attends_user_id = document.getElementsByClassName('attend_user')[i].id;
+            var attends_user = document.getElementById(attends_user_id);
+            attends_user.remove();
             id.pop(userid);
            console.log("disconnected this User: "+userid)
         }
@@ -232,7 +246,7 @@ function appendMessage(message){
     console.log('all Id:'+id);
     var g_tag = document.createElementNS("http://www.w3.org/2000/svg","g");
             g_tag.setAttribute("id",gettext+"_user_1");
-            g_tag.setAttribute("transform",`translate(0,0)`);
+            g_tag.setAttribute("transform",`translate(650,450)`);
             g_tag.setAttribute("data-cy","map_user_me");
             g_tag.setAttribute("class","MapUser_MapUser_160Xx");
             g_tag.style.transition="all 2s";
@@ -244,7 +258,7 @@ function appendMessage(message){
                  createrect.setAttribute("y",0);
                  createrect.setAttribute("width",12);
                  createrect.setAttribute("height",12);
-                 createrect.setAttribute("rx",4);
+                 createrect.setAttribute("rx",2);
                  createrect.setAttribute('style','fill:lightblue; transform:rotate(45deg);')
             
                  var create_text = document.createElementNS("http://www.w3.org/2000/svg","text");
@@ -274,25 +288,51 @@ async function  changeDimensions(click , message) {
             var gtrans = document.getElementById(get_g_id);
             var x = click.clientX;
             var y = click.clientY
-            if(x<=150 || y<=150){
-                var x = x-10;
-                var y = y-10;
+            console.log('get x Value :'+x);
+            console.log('get Y Value: '+y);
+            if(x>=1 || y>=1){
+                var x = x-0;
+                var y = y-7;
             }
-            else if(x<=250 || y<=250){
-                var x = x-15;
-                var y = y-15;
-            }
-            else if(x>=250 || y>=250){
-                var x = x-15;
-                var y = y-15;
-            }
+            // else if(x<=150 || y<=150){
+            //     var x = x-50;
+            //     var y = y-50;
+            // }
+            // else if(x<=250 || y<=250){
+            //     var x = x-80;
+            //     var y = y-80;
+            // }
+            // else if(x<=350 || y<=350){
+            //     var x = x-110;
+            //     var y = y-110;
+            // }
+            // else if(x<=450 || y<=450){
+            //     var x = x-140;
+            //     var y = y-140;
+            // }
+            // else if(x<=550 || y<=550){
+            //     var x = x-170;
+            //     var y = y-170;
+            // }
+            // if(x<=150 || y<=150){
+            //     var x = x-10;
+            //     var y = y-10;
+            // }
+            // else if(x<=250 || y<=250){
+            //     var x = x-15;
+            //     var y = y-15;
+            // }
+            // else if(x>=250 || y>=250){
+            //     var x = x-15;
+            //     var y = y-15;
+            // }
             getx1 = x;
             gety1=y;
             console.log('x1: '+getx1);
             console.log('y1: '+gety1);
             console.log('x2: '+rect2getx);
             console.log('y2: '+rect2gety);
-            var attrvalue = "translate("+x+","+y+")";
+            var attrvalue = "translate("+getx1+","+gety1+")";
             gtrans.setAttribute("transform",attrvalue);
             socket.emit('value_of_x', x,y);
             socket.emit('value_of_y', y); 
@@ -301,6 +341,7 @@ async function  changeDimensions(click , message) {
                 socket.emit("join",room);
                 socket.emit("memberConnected",one);
                 room++;
+                
                 joinStream();
                 // ++numbertext;
                 var delayInMilliseconds = 1500; //1 second
@@ -353,8 +394,8 @@ async function  changeDimensions(click , message) {
                     socket.emit('show_avator_after_meeting',get_username);
                 }
                 
-                
                 leaveAndRemoveLocalStream();
+                
                 for(i=0; i<count.length; i++){
                     if(count[i]==one){
                         var get_g_id = document.getElementsByClassName('MapUser_MapUser_160Xx')[i].id;
@@ -421,6 +462,13 @@ function getDistance(x1, y1, x2, y2){
     console.log("total = "+ total);
     return total;
 }
+const main =  document.querySelector('.main');
+const strean_wrapper = document.querySelector('.stream-wrapper');
 
+map_show_hide.onclick = function() {
+main.classList.toggle('active');
+strean_wrapper.classList.toggle('active');
+map_show_hide.classList.toggle('active');
+}
 mainDiv.addEventListener('click', changeDimensions);
-
+// map_show_hide.addEventListener('click',mapshowhide())
