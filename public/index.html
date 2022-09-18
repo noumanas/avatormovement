@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
+    <div class="container"  id="room-create" hidden>
         <div class="video_access">
             <div class="you_are_muted" id="mic_muted_notification">
                 <p>You are muted</p>
@@ -36,7 +36,7 @@
                 </div>
             </div>
         </div>
-        <div class="rigth_side">
+        <div class="rigth_side" >
             <div class="heding">
                 <h1>Blue Colony</h1>
             </div>
@@ -48,16 +48,36 @@
                     <input type="text" placeholder="Name" id="message-input"/>
                 </div>
                 <div class="email">
-                    <input type="email" placeholder="Email Address"/>
+                    <input type="text" id="room-name" placeholder="Email Address"/>
                 </div>
                 <div class="btn btn-2 btn-2d" id="send-button">
                     <p>Take me to the lobby</p>
                 </div>
             </div>
+            <div class="col-12 col-md-4 offset-md-4 mb-3" id='room-created'></div>
         </div>
+        
     </div>
-    <div class="main-container">
-            <div class="main" id="main">
+
+    <div class="rigth_side" id='username-set' hidden >
+        <div class="heding">
+            <h1>Blue Colony</h1>
+        </div>
+        <div class="tag_line">
+            <span class="form-text small text-danger" id='err-msg-username'></span>
+        </div>
+        <div class="input_fields">
+            <div class="name">
+                <input type="text" placeholder="your Name" id="username"/>
+            </div>
+            <div class="btn btn-2 btn-2d" id='enter-room'>
+                <p>Take me to the lobby</p>
+            </div>
+        </div>
+        <div class="col-12 col-md-4 offset-md-4 mb-3" id='room-created'></div>
+    </div>
+    <div class="main-container room-commm" >
+            <div class="main" id="main" >
                 <svg 
             xmlns="http://www.w3.org/2000/svg"
             id="map" 
@@ -66,7 +86,7 @@
             style="width:100%;height:100%;"
             preserveAspectRatio="xMinYMin slice"
             aria-label="Map" 
-            viewBox="0 0"
+            viewBox=""
             >
             <defs>
                 <linearGradient id="logo-gradient"><stop offset="0%" stop-color="#00a9f2" stop-opacity="100%">
@@ -75,16 +95,84 @@
             </defs>
             
             </svg>
-
+            <div class="floor-selector" id="floor-selector">
+                <div class="">
+                    <img id="flor-icon" src="assets/flor.png"/>
+                    First Floor
+                    <img id="down-icon" src="assets/mini_arrow_shack_white.png"/>
+                </div>
+                <div class="floor-names">
+                    <div class="selected"><img src="assets/accept.png"/>First Floor</div>
+                    <div>Second Floor</div>
+                    <div>Third Floor</div>
+                    <div>Rooftop</div>
+                </div>
+            </div>
         </div>
-        <div id="stream-wrapper">
+        <div class="">
+            <span class="form-text small text-danger" id='err-msg'></span>
+        </div>
+        <div id="stream-wrapper" class="stream-wrapper">
+            <div class="Attendees-section" id="Attendees-section">
+                <div class="attendees-text">
+                    Attendees
+                </div>
+                <div class="search-attendes">
+                    <input type="text" placeholder="Search"/>
+                    <img src="assets/search.png">
+                </div>
+                <div class="attendees_list">
+                    
+                </div>
+
+            </div>
+            
+            <div id="stream-controls">
+                <div class="top-two-btn">
+                    <div class="btn-one btn-one-2 btn-one-2d  btn-one-shadow map-show-hide">
+                        <img src="assets/map.png" alt="">
+                    </div>
+                    <div class="btn-one btn-one-2 btn-one-2d btn-one-shadow profile-btn">
+                        <img src="assets/profiles_1_add.png" alt="">
+                    </div>
+                </div>
+                <div class="buttom-six-btn">
+                    <div class="you_are_muted" id="mic_muted_notification">
+                        <p>You are muted</p>
+                    </div>
+                    <div class="btn-one btn-one-2 btn-one-2d btn-one-shadow stream_camera_icon">
+                        <img id="video-cam" src="assets/cam_2_2.png" alt="">
+                    </div>
+                    <div class="btn-one btn-one-2 btn-one-2d btn-one-shadow profile-btn stream_mic_icon">
+                        <img id="stream-mic" src="assets/mic.png" alt="">
+                    </div>
+                    <div class="btn-one btn-one-2 btn-one-2d btn-one-shadow profile-btn">
+                        <img id="video-cam" src="assets/message_2.png" alt="">
+                    </div>
+                    <div class="btn-one btn-one-2 btn-one-2d btn-one-shadow profile-btn stream_screen_share" id="screen-share-btn" >
+                        <img src="assets/monitor.png" alt="">
+                    </div>
+                    <div class="btn-one btn-one-2 btn-one-2d btn-one-shadow profile-btn attendes-show-hide">
+                        <img id="stream-mic" src="assets/profiles_2.png" alt="">
+                    </div>
+                    <div class="btn-one btn-one-2 btn-one-2d btn-one-shadow profile-btn">
+                        <img id="stream-mic" src="assets/gear_2.png" alt="">
+                    </div>
+                    <!-- <div class="stream_mic_icon">
+                        <img id="stream-mic" src="assets/Mic_On.svg" alt="">
+                    </div> -->
+                    <!-- <button id="mic-btn">Mic On</button>
+                    <button id="camera-btn">Camera on</button> -->
+                    <!-- <button id="screen-share-btn">Screen Share</button> -->
+                </div>
+                
+            </div>
+
+            
+
             <div id="video-streams"></div>
             <div id="remote-playerlist"></div>
-            <div id="stream-controls">
-                <button id="mic-btn">Mic On</button>
-                <button id="camera-btn">Camera on</button>
-                <button id="screen-share-btn">Screen Share</button>
-            </div>
+           
         </div>
     </div>
     
@@ -105,10 +193,11 @@
         <!-- <script src="userInput.js"></script>
         <script src="mororgo.js"></script> -->
         <script src="AgoraRTC_N-4.7.3.js"></script>
+        <script src="agora-rtm-sdk-1.4.4.js"></script>
         <!-- <script src="shareTheScreen.js"></script> -->
         <script src="main.js"></script>
-        <script src="client.js">
-        </script>
+        <script src="client.js"></script>
+        <script src="script.js"></script>
         
 </body>
 </html>
